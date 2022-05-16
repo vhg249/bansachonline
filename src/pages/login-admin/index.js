@@ -4,11 +4,11 @@ import { Input } from "../../shared/components/Input";
 import {Button} from "../../shared/components/Button";
 import {Link} from "react-router-dom";
 
-export const Login = () => {
+export const LoginAdmin = () => {
   return (
     <div className="container">
       <LoginWrapper flexDirection={"column"} alignItems={"center"}>
-        <h1>Đăng nhập</h1>
+        <h1>Đăng nhập Admin</h1>
         <Form>
           <Input
             label="Email"
