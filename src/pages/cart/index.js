@@ -9,6 +9,7 @@ export const Cart = () => {
           <h1>Giỏ hàng (2 sản phẩm)</h1>
           <div>
               <CartItem />
+              <CartItem />
           </div>
       </CartWrapper>
     </div>

@@ -43,7 +43,7 @@ export const Profile = styled.div`
   color: #3E445A;
   gap: 12px;
   cursor: pointer;
-  &>img{
+  img{
     width: 40px;
   }
   .bold{
