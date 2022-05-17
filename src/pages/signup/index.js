@@ -2,23 +2,71 @@ import React, { useState } from "react";
 import { Form, LoginWrapper } from "./style";
 import { Input } from "../../shared/components/Input";
 import { Button } from "../../shared/components/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constant";
+import {toast} from "react-toastify";
+import {useDispatch} from "react-redux";
+import {updateToken} from "../../redux/actions/accounts";
 
 export const Signup = () => {
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
-  const [email, setEmail] = useState();
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [address, setAddress] = useState();
+  const [firstName, setFirstName] = useState("Nguyen");
+  const [lastName, setLastName] = useState("Huong");
+  const [username, setUsername] = useState("vhg");
+  const [password, setPassword] = useState("123456");
+  const [confirmPassword, setConfirmPassword] = useState("123456");
+  const [email, setEmail] = useState("bbb@gmail.com");
+  const [phoneNumber, setPhoneNumber] = useState("0123456789");
+  const [address, setAddress] = useState("HaDong");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const postUser = () => {
-    axios
-      .post(`${API_URL}/user`, {
+  const postUser = async (body) => {
+    try{
+      const res = await axios.post(`${API_URL}/auth`, body)
+      return res.data.data;
+    }
+    catch (err){
+      console.log(err);
+      toast.error(err.response.data.message)
+      return null;
+    }
+  };
+
+  const validateEmail = (email) => {
+    return String(email)
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+  };
+
+  const validatePhone = (inputtxt) => {
+    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    return phoneno.test(inputtxt)
+  }
+
+  const validate = () => {
+    if(email === "" || password === "" || confirmPassword === "" || phoneNumber === "" || address === "" || username === "" || firstName === "" || lastName === ""){
+      toast.error("Vui lòng điền đầy đủ thông tin");
+      return false;
+    } else if(!validateEmail(email)){
+      toast.error("Nhập lại email");
+      return false;
+    } else if(!validatePhone(phoneNumber)){
+      toast.error("Nhập lại số điện thoại");
+      return false;
+    } else if(password !== confirmPassword){
+      toast.error("Mật khẩu không khớp");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  const register = async () => {
+    if(validate()){
+      const res = await postUser({
         email: email,
         password: password,
         phoneNumber: phoneNumber,
@@ -27,16 +75,12 @@ export const Signup = () => {
         firstName: firstName,
         lastName: lastName
       })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  const register = () => {
-
+      if(res){
+        dispatch(updateToken({token: res.lastToken}));
+        toast.success("Success");
+        navigate("/login");
+      }
+    }
   }
 
   return (
