@@ -12,12 +12,7 @@ export const Header = () => {
     <HeaderWrapper>
       <div className="container flex">
         <img className="logo" src={logo} alt={"logo"} />
-        <SearchInput>
-          <input type="text" placeholder="Tìm kiếm sản phẩm" />
-          <div className="icon">
-            <img src={searchIcon} alt={"search"} />
-          </div>
-        </SearchInput>
+        
         <Flex gap="24px">
           <Profile>
             <img src={profileIcon} alt={"profile"} />
