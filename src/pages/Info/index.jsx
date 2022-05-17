@@ -2,6 +2,7 @@ import { FlexRight, Wrapper } from "./styles";
 import product from "../../assets/images/product-big.png";
 export const Info = () => {
   return (
+    <div className="container">
     <Wrapper>
       <div>
         <img className="img" src={product} />
@@ -17,5 +18,6 @@ export const Info = () => {
         <div className="line"></div>
       </FlexRight>
     </Wrapper>
+    </div>
   );
 };
