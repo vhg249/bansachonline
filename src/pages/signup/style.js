@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Flex from "../../shared/components/Flex";
 
 export const LoginWrapper = styled(Flex)`
-  margin-top: 100px;
+  padding: 100px 0;
   h1{
     font-family: 'Cairo';
     font-style: normal;

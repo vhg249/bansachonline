@@ -11,7 +11,7 @@ export const Header = () => {
   return (
     <HeaderWrapper>
       <div className="container flex">
-        <img src={logo} alt={"logo"} />
+        <img className="logo" src={logo} alt={"logo"} />
         <SearchInput>
           <input type="text" placeholder="Tìm kiếm sản phẩm" />
           <div className="icon">

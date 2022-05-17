@@ -7,6 +7,9 @@ export const HeaderWrapper = styled.div`
     display: flex;
     justify-content: space-between;
   }
+  .logo{
+    height: 40px;
+  }
 `;
 
 export const SearchInput = styled.div`
@@ -29,7 +32,7 @@ export const SearchInput = styled.div`
   .icon{
     background: #219653;
     border-radius: 0px 50px 50px 0px;
-    padding: 7px 14px;
+    padding: 8px 14px;
     cursor: pointer;
   }
 `;
