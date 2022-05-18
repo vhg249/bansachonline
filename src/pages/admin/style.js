@@ -4,6 +4,11 @@ export const AdminWrapper = styled.div`
   display: grid;
   grid-template-columns: 300px 1fr;
   width: 100%;
+  table{
+    th{
+      font-weight: bold;
+    }
+  }
 `;
 export const Content = styled.div`
   padding: 20px;

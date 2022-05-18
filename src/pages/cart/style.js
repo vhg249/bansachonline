@@ -53,4 +53,7 @@ export const Item = styled.div`
       font-weight: 600;
     }
   }
+  .delete{
+    cursor: pointer;
+  }
 `;
