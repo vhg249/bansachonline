@@ -1,15 +1,19 @@
 import { FlexRight, Wrapper, Content, SearchInput, Chat } from "./styles";
 import product from "../../assets/images/product-big.png";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import add from "../../assets/images/Add-to-card.png";
 import chatIcon from "../../assets/images/Chat-icon.png";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constant";
+import {useDispatch, useSelector} from "react-redux";
 
 export const Info = () => {
   const { id } = useParams();
+  const token = useSelector((state) => state.account.token);
+
   const [data, setData] = useState();
   const [quantity, setQuantity] = useState();
 
@@ -20,13 +24,21 @@ export const Info = () => {
     axios.post(`${API_URL}/Order/insert`,{
         bookid: id,
         price: data.price,
-        quantity: quantity
+        quantity: quantity,
+        
+    },{
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
     })
       .then(function (response) {
         console.log(response);
       })
       .catch(function (error) {
         console.log(error);
+        toast.error("Error")
       });
   }
   console.log(id);
