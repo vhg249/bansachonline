@@ -9,6 +9,7 @@ export const HeaderWrapper = styled.div`
   }
   .logo{
     height: 40px;
+    cursor: pointer;
   }
 `;
 

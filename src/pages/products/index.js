@@ -47,7 +47,7 @@ export const Products = () => {
                 <List>
                     {data.map((item, index) => {
                         return (
-                            <a href="info">
+                            <a href="info" key={index}>
                                 <Card />
                             </a>
                         )

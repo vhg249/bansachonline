@@ -10,23 +10,21 @@ import { User } from "./pages/admin/user";
 import { Product } from "./pages/admin/product";
 import { Bill } from "./pages/admin/bill";
 import { Info } from "./pages/Info";
+import { Payment } from "./pages/payment";
 
 const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<Products />} >
-
-      </Route><Route path="info" element={<Info />} />
+      <Route path="/" element={<Products />}></Route>
+      <Route path="info" element={<Info />} />
       <Route path="/login" element={<Login />} />
       <Route path="/login-admin" element={<LoginAdmin />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/manager" element={<Admin />} >
+      <Route path="/payment" element={<Payment />} />
+      <Route path="/manager" element={<Admin />}>
         <Route path="user" element={<User />} />
         <Route path="product" element={<Product />} />
-
-
-
         <Route path="user" element={<Bill />} />
       </Route>
     </Routes>

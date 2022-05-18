@@ -7,10 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../constant";
 import { toast } from "react-toastify";
-import { updateToken } from "../../redux/actions/accounts";
+import {loginSuccess, updateToken} from "../../redux/actions/accounts";
 
 export const Login = () => {
-  const token = useSelector((state) => state.account.token);
   const [email, setEmail] = useState("bbb@gmail.com");
   const [password, setPassword] = useState("123456");
   const dispatch = useDispatch();
@@ -46,6 +45,7 @@ export const Login = () => {
       });
       if (res) {
         dispatch(updateToken({ token: res.lastToken }));
+        dispatch(loginSuccess());
         toast.success("Success");
         navigate("/");
       }
