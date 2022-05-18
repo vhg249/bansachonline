@@ -12,6 +12,11 @@ export const Wrapper = styled.div`
     .img{
         display:flex;
     flex-direction:column;
+    img{
+        height:215px;
+        width:200px;
+        object-fit:contain;
+    }
 
     }
     

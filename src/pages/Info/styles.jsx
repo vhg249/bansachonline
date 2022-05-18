@@ -3,6 +3,11 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   padding: 30px;
   display: flex;
+  gap:20px;
+  .img{
+    width: 350px;
+    height: auto;
+  }
 `;
 export const FlexRight = styled.div`
   .title {
