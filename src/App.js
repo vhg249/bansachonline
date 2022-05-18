@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Header />
       <Router />
-      <ToastContainer position="top-right" autoClose={3000} theme="colored" />
+      <ToastContainer position="top-right" autoClose={1000} theme="colored" />
     </BrowserRouter>
   );
 }

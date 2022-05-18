@@ -38,7 +38,6 @@ export const MenuProfile = (props) => {
           },
         }
       );
-      console.log()
       if (res.data.data.result) {
         dispatch(updateToken({ token: "" }));
         dispatch(logoutSuccess());

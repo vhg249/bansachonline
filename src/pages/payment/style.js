@@ -33,10 +33,13 @@ export const VoucherItem = styled.div`
   align-items: center;
   & > div {
     &:first-child {
-      flex-basis: 75%;
+      width: 75%;
     }
     &:last-child {
-      flex-basis: 25%;
+      width: 25%;
+      & > button{
+        width: 100%;
+      }
     }
   }
   .code {
@@ -50,5 +53,62 @@ export const VoucherItem = styled.div`
   }
 `;
 export const FormWrapper = styled.div`
+  margin-bottom: 50px;
+  &>div{
+    width: 100%;
+  }
+  .submit_btn{
+    text-align: center;
+  }
+`;
+export const Item = styled.div`
+  background: #FFFFFF;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 15px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
   
+  & > div{
+    &:first-child{
+      flex-basis: 60%;
+    }
+    &:nth-child(2){
+      flex-basis: 20%;
+    }
+    &:nth-child(3){
+      flex-basis: 20%;
+      text-align: right;
+      color: #C92127;
+      font-weight: 600;
+    }
+  }
+  .image{
+    display: flex;
+    gap: 20px;
+    & > img{
+      max-height: 120px;
+      width: auto;
+      object-fit: contain;
+    }
+    .name, .price{
+      font-size: 16px;
+    }
+    .price{
+      font-weight: 600;
+    }
+  }
+`;
+export const Total = styled.div`
+  background: #FFFFFF;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 15px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #C92127;
+  font-weight: 600;
 `;
