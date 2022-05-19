@@ -7,6 +7,8 @@ import searchIcon from "../../assets/images/search.png";
 import axios from "axios";
 import { API_URL } from "../constant";
 import { Checkboxs } from "../../shared/components/Checkbox";
+import { Select, MenuItem } from "@mui/material";
+
 export const Products = () => {
     const [isActive, setIsActive] = useState('');
     const [name, setName] = useState('');
@@ -105,10 +107,21 @@ export const Products = () => {
         //     }
 
     }, [name, isActive])
-    const onSearch = (e) =>{
+    const onSearch = (e) => {
         setSearchValue(e.target.value);
         axios
             .get(`${API_URL}/Book/getListBook?name=${searchValue}`)
+            .then(function (response) {
+                setData(response.data.data.result);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    const handleChange = (e) => {
+        setSearchValue(e.target.value);
+        axios
+            .get(`${API_URL}/Book/getListBook?category=${searchValue}`)
             .then(function (response) {
                 setData(response.data.data.result);
             })
@@ -122,14 +135,21 @@ export const Products = () => {
             <Categories>
                 <p className="title">Product Categories</p>
                 <div className="list">
-                    {category && category.map((item, index) => {
-                        return (
-                            <div key={index} className="item">
-                                <Checkboxs name={item.name} setIsActive={setIsActive} setName={setName} />
-                            </div>
-                        )
-                    })}
+                    <Select
+                    style={{width:"200px"}}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={searchValue}
+                        label="Product Categories"
+                        onChange={handleChange}
+                    >
+                        {category && category.map((item, index) => {
+                            return (
+                                <MenuItem key={index} value={item}>{item.name}</MenuItem>)
+                        })}
 
+
+                </Select>
                 </div>
             </Categories>
             <div>
