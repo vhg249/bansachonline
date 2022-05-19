@@ -1,22 +1,79 @@
-import * as React from 'react';
+import { useEffect, useState } from "react";
+import { API_URL } from "../../constant";
+import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import {Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
-
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 export const Product = () => {
+
+    const [data, setData] = useState([]);
+    const [dataSlect, setDataSlect] = useState();
+    const token = useSelector((state) => state.account.token);
+
+
+    const getBook = () => {
+        axios
+            .get(`${API_URL}/Book/getListBook`)
+            .then(function (response) {
+                console.log(response);
+                setData(response.data.data.result);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+    const deleteBook = (data) => {
+        axios
+            .delete(`${API_URL}/Book/deleteBook`, { deleteId: [data] }, {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                }
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+    useEffect(() => {
+        getBook();
+    }, []);
     return (
         <div style={{ height: 400, width: '100%' }}>
             <h3>Book</h3>
+            <div>Add</div>
             <Table aria-label="simple table">
                 <TableHead>
+
                     <TableRow>
                         <TableCell>STT</TableCell>
                         <TableCell align="right">Tên</TableCell>
                         <TableCell align="right">Tác giả</TableCell>
                         <TableCell align="right">Số lượng</TableCell>
-                        <TableCell align="right">Protein&nbsp;(g)</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
+                    {data.map((row, index) => {
+                        return (
+                            <TableRow
+                                key={index}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            ><TableCell component="th" scope="row">
+                                    {row._id}
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    {row.name}
+                                </TableCell>
+                                <TableCell align="right">{row.author}</TableCell>
+                                <TableCell align="right">{row.quantity}</TableCell>
+                                <TableCell align="right"><button onClick={() => deleteBook(row._id)}>Xóa</button></TableCell>
+                            </TableRow>
+                        )
+                    })}
                     {/*{rightows.map((row) => (*/}
                     {/*    <TableRow*/}
                     {/*        key={row.name}*/}

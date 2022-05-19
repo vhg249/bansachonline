@@ -21,6 +21,9 @@ export const Sidebar = () => {
         <NavLink to="bill">
           <NavItem>Hoá Đơn</NavItem>
         </NavLink>
+        <NavLink to="store">
+          <NavItem>Store</NavItem>
+        </NavLink>
       </SidebarWrapper>
     </>
   );

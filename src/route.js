@@ -11,6 +11,7 @@ import { Product } from "./pages/admin/product";
 import { Bill } from "./pages/admin/bill";
 import { Info } from "./pages/Info";
 import { Payment } from "./pages/payment";
+import { Store } from "./pages/admin/store";
 
 const Router = () => {
   return (
@@ -27,6 +28,8 @@ const Router = () => {
         <Route path="user" element={<User />} />
         <Route path="product" element={<Product />} />
         <Route path="bill" element={<Bill />} />
+        <Route path="store" element={<Store />} />
+
       </Route>
     </Routes>
   );
