@@ -10,6 +10,8 @@ import { Checkboxs } from "../../shared/components/Checkbox";
 export const Products = () => {
     const [isActive, setIsActive] = useState('');
     const [name, setName] = useState('');
+    const [searchValue, setSearchValue] = useState('');
+
     const [str, setStr] = useState([]);
 
 
@@ -103,6 +105,17 @@ export const Products = () => {
         //     }
 
     }, [name, isActive])
+    const onSearch = (e) =>{
+        setSearchValue(e.target.value);
+        axios
+            .get(`${API_URL}/Book/getListBook?name=${searchValue}`)
+            .then(function (response) {
+                setData(response.data.data.result);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
     return (
         <Wrapper>
 
@@ -121,7 +134,7 @@ export const Products = () => {
             </Categories>
             <div>
                 <SearchInput>
-                    <input type="text" placeholder="Tìm kiếm sản phẩm" />
+                    <input onChange={onSearch} type="text" placeholder="Tìm kiếm sản phẩm" />
                     <div className="icon">
                         <img src={searchIcon} alt={"search"} />
                     </div>
