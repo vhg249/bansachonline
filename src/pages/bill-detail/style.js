@@ -12,4 +12,10 @@ export const InfoList = styled(VoucherList)`
       text-align: right;
     }
   }
+  .status{
+    width: 200px;
+    input{
+      text-align: right;
+    }
+  }
 `;

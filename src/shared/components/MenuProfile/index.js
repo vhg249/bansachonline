@@ -8,8 +8,8 @@ import { Profile } from "../header/style";
 import axios from "axios";
 import { API_URL } from "../../../pages/constant";
 import { toast } from "react-toastify";
-import {useDispatch, useSelector} from "react-redux";
-import {logoutSuccess, updateToken} from "../../../redux/actions/accounts";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess, updateToken } from "../../../redux/actions/accounts";
 
 export const MenuProfile = (props) => {
   const token = useSelector((state) => state.account.token);
@@ -85,7 +85,14 @@ export const MenuProfile = (props) => {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleClose}>Thông tin tài khoản</MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigate("/profile");
+              handleClose();
+            }}
+          >
+            Thông tin tài khoản
+          </MenuItem>
           <MenuItem onClick={() => navigate("/user-bill")}>Hoá đơn</MenuItem>
           <MenuItem onClick={logout}>Đăng xuất</MenuItem>
         </Menu>
