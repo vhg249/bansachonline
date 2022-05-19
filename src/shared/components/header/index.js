@@ -9,12 +9,14 @@ import {Link} from "react-router-dom";
 import {MenuProfile} from "../MenuProfile";
 import axios from "axios";
 import {API_URL} from "../../../pages/constant";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {updateProfile} from "../../../redux/actions/accounts";
 
 export const Header = () => {
   const [myProfile, setMyProfile] = useState();
   const isLogin = useSelector((state) => state.account.isLogin);
   const token = useSelector((state) => state.account.token);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if(isLogin){
@@ -31,7 +33,7 @@ export const Header = () => {
           Authorization: "Bearer " + token,
         },
       });
-      console.log(res.data.data)
+      // dispatch(updateProfile({profile: res.data.data}))
       setMyProfile(res.data.data);
     } catch (err){
       console.log(err)

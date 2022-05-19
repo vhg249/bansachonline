@@ -35,7 +35,6 @@ export const Login = () => {
   };
 
   const login = async () => {
-    console.log("login");
     if (!validateEmail(email)) {
       toast.error("Nhập lại email");
     } else {

@@ -9,3 +9,6 @@ export const loginSuccess = () => {
 export const logoutSuccess = () => {
   return { type: ACCOUNT_ACTION.LOGOUT_SUCCESS };
 };
+export const updateProfile = (params) => {
+  return { type: ACCOUNT_ACTION.UPDATE_PROFILE, payload: params };
+};
