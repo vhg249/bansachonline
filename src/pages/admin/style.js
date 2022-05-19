@@ -23,3 +23,8 @@ export const Wrapper = styled.div`
     color: #219653;
   }
 `;
+export const WrapTable = styled.div`
+  *{
+    text-align: center;
+  }
+`;

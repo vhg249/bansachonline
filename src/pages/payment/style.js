@@ -23,6 +23,10 @@ export const VoucherList = styled.div`
   border: 1px solid #219653;
   border-radius: 10px;
   padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 `;
 export const VoucherItem = styled.div`
   border-bottom: 1px solid #f2efef;

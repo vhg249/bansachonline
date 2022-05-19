@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DetailWrapper } from "./style";
+import {DetailWrapper, InfoList} from "./style";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constant";
@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { OrderItem } from "../payment/OrderItem";
 import Flex from "../../shared/components/Flex";
 import {Total, VoucherList} from "../payment/style";
+import moment from "moment";
 
 export const BillDetail = () => {
   const param = useParams();
@@ -51,32 +52,32 @@ export const BillDetail = () => {
           <Total>
             <p>Tổng:</p>
             <Flex alignItems="center">
-              <p>{bill.price.toLocaleString()}đ</p>
+              <p>{bill ? bill.price : 0}đ</p>
             </Flex>
           </Total>
         </div>
-        <VoucherList>
-          <Flex justifyContent="space-between">
+        <InfoList>
+          <Flex justifyContent="space-between" gap="20px">
             <p>Họ tên</p>
             <p>{bill ? bill.name : ""}</p>
           </Flex>
-          <Flex justifyContent="space-between">
+          <Flex justifyContent="space-between" gap="20px">
             <p>Số điện thoại</p>
             <p>{bill ? bill.phonenumber : ""}</p>
           </Flex>
-          <Flex justifyContent="space-between">
+          <Flex justifyContent="space-between" gap="20px">
             <p>Địa chỉ</p>
             <p>{bill ? bill.address : ""}</p>
           </Flex>
-          <Flex justifyContent="space-between">
+          <Flex justifyContent="space-between" gap="20px">
             <p>Trạng thái</p>
             <p>{bill ? bill.status : ""}</p>
           </Flex>
-          <Flex justifyContent="space-between">
+          <Flex justifyContent="space-between" gap="20px">
             <p>Ngày đặt hàng</p>
-            <p>{bill ? bill.createdAt : ""}</p>
+            <p>{bill ? moment(bill.createdAt).format("MMM Do YY") : ""}</p>
           </Flex>
-        </VoucherList>
+        </InfoList>
       </DetailWrapper>
     </div>
   );

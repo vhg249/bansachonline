@@ -17,6 +17,7 @@ import { UserBill } from "./pages/user-bill";
 import { BillDetail } from "./pages/bill-detail";
 import { AddBook } from "./pages/admin/product/add";
 import { UpdateBook } from "./pages/admin/product/update";
+import { EditBill } from "./pages/admin/bill/editBill";
 
 const Router = () => {
   return (
@@ -38,7 +39,7 @@ const Router = () => {
         <Route path="store" element={<Store />} />
         <Route path="add-book" element={<AddBook />} />
         <Route path="update-book/:id" element={<UpdateBook />} />
-
+        <Route path="bill/:id" element={<EditBill />} />
       </Route>
     </Routes>
   );
