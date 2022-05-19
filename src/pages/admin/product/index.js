@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../../constant";
 import axios from "axios";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+
 export const Product = () => {
 
     const [data, setData] = useState([]);
@@ -23,21 +24,24 @@ export const Product = () => {
                 console.log(error);
             });
     };
-    const deleteBook = (data) => {
-        axios
-            .delete(`${API_URL}/Book/deleteBook`, { deleteId: [data] }, {
+    const deleteBook = async (data) => {
+        try {
+            const res = await axios.delete(`${API_URL}/Book/deleteBook`, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
-                }
-            })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
+                },
+                data: { deleteId: [data] },
             });
+            if (res.data.data.result) {
+                toast.success("Deleted");
+                getBook();
+            }
+        } catch (err) {
+            console.log(err);
+            toast.error(err.response.data.message);
+        }
     };
     useEffect(() => {
         getBook();
@@ -45,7 +49,10 @@ export const Product = () => {
     return (
         <div style={{ height: 400, width: '100%' }}>
             <h3>Book</h3>
-            <div>Add</div>
+            <a href="add-book">
+                <Button variant="outlined" color="success">
+                    Thêm
+                </Button></a>
             <Table aria-label="simple table">
                 <TableHead>
 
@@ -70,7 +77,7 @@ export const Product = () => {
                                 </TableCell>
                                 <TableCell align="right">{row.author}</TableCell>
                                 <TableCell align="right">{row.quantity}</TableCell>
-                                <TableCell align="right"><button onClick={() => deleteBook(row._id)}>Xóa</button></TableCell>
+                                <TableCell align="right"><Button variant="outlined" color="error" onClick={() => deleteBook(row._id)}>Xóa</Button></TableCell>
                             </TableRow>
                         )
                     })}
