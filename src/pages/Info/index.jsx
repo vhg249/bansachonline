@@ -87,14 +87,10 @@ export const Info = () => {
         </FlexRight>
 
       </Wrapper>
-      <Chat>
-        <SearchInput>
-          <input type="text" placeholder="Thêm bình luận" />
-          <div className="icon">
-            <img src={chatIcon} alt={"search"} />
-          </div>
-        </SearchInput>
-      </Chat>
+      <h3>Description</h3>
+      <Content>
+        <p>{data?.description}</p></Content>
+      
     </div>
   );
 };
