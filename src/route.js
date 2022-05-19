@@ -14,6 +14,7 @@ import { Payment } from "./pages/payment";
 import { Voucher } from "./pages/voucher";
 import { UserBill } from "./pages/user-bill";
 import { BillDetail } from "./pages/bill-detail";
+import { EditBill } from "./pages/admin/bill/editBill";
 
 const Router = () => {
   return (
@@ -32,6 +33,7 @@ const Router = () => {
         <Route path="user" element={<User />} />
         <Route path="product" element={<Product />} />
         <Route path="bill" element={<Bill />} />
+        <Route path="bill/:id" element={<EditBill />} />
       </Route>
     </Routes>
   );

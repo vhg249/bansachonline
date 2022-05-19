@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../constant";
 import { toast } from "react-toastify";
-import { updateToken } from "../../redux/actions/accounts";
+import { loginSuccess, updateToken } from "../../redux/actions/accounts";
 
 export const LoginAdmin = () => {
   const [email, setEmail] = useState("");
@@ -43,6 +43,7 @@ export const LoginAdmin = () => {
         password: password,
       });
       if (res) {
+        dispatch(loginSuccess());
         dispatch(updateToken({ token: res.lastToken }));
         toast.success("Success");
         navigate("/manager");
