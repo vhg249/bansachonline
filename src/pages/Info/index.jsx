@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 import add from "../../assets/images/Add-to-card.png";
 import chatIcon from "../../assets/images/Chat-icon.png";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constant";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,6 +16,7 @@ export const Info = () => {
 
   const [data, setData] = useState();
   const [quantity, setQuantity] = useState();
+  const navigate = useNavigate();
 
   const onChangeQuantity = (e) =>{
       setQuantity(e.target.value);
@@ -35,6 +36,8 @@ export const Info = () => {
     })
       .then(function (response) {
         console.log(response);
+        toast.success("Đã thêm vào giỏ hàng")
+        navigate("/cart")
       })
       .catch(function (error) {
         console.log(error);
@@ -69,7 +72,7 @@ export const Info = () => {
           <p className="price">${data?.price}</p>
           <div className="line"></div>
           <div className="flex">
-            <input type="number" placeholder="quantity" />
+            <input type="number" placeholder="quantity" onChange={(e) => onChangeQuantity(e)} />
             <img onClick={addToCard} src={add} />
           </div>
           <Content>

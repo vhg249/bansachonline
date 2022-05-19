@@ -85,9 +85,9 @@ export const MenuProfile = (props) => {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={logout}>Logout</MenuItem>
+          <MenuItem onClick={handleClose}>Thông tin tài khoản</MenuItem>
+          <MenuItem onClick={() => navigate("/user-bill")}>Hoá đơn</MenuItem>
+          <MenuItem onClick={logout}>Đăng xuất</MenuItem>
         </Menu>
       )}
     </div>
