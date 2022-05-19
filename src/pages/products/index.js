@@ -119,15 +119,18 @@ export const Products = () => {
             });
     }
     const handleChange = (e) => {
-        setSearchValue(e.target.value);
-        axios
-            .get(`${API_URL}/Book/getListBook?category=${searchValue}`)
-            .then(function (response) {
-                setData(response.data.data.result);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        setSearchValue(e.target.value.name);
+        if (e.target.value.name.length>0) {
+            axios
+                .get(`${API_URL}/Book/getListBook?category=${e.target.value.name}`)
+                .then(function (response) {
+                    setData(response.data.data.result);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
     }
     return (
         <Wrapper>
@@ -136,7 +139,7 @@ export const Products = () => {
                 <p className="title">Product Categories</p>
                 <div className="list">
                     <Select
-                    style={{width:"200px"}}
+                        style={{ width: "200px" }}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={searchValue}
@@ -149,7 +152,7 @@ export const Products = () => {
                         })}
 
 
-                </Select>
+                    </Select>
                 </div>
             </Categories>
             <div>
