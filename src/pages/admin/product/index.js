@@ -5,6 +5,8 @@ import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Table, TableBody, TableCell, TableHead, TableRow, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+
 
 export const Product = () => {
 
@@ -24,6 +26,8 @@ export const Product = () => {
                 console.log(error);
             });
     };
+    const navigate = useNavigate();
+
     const deleteBook = async (data) => {
         try {
             const res = await axios.delete(`${API_URL}/Book/deleteBook`, {
@@ -66,7 +70,9 @@ export const Product = () => {
                 <TableBody>
                     {data.map((row, index) => {
                         return (
+                            // <a href={`/update/${row._id}`}>
                             <TableRow
+                            onClick={()=>{navigate(`/manager/update-book/${row._id}`)}}
                                 key={index}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             ><TableCell component="th" scope="row">
@@ -79,22 +85,10 @@ export const Product = () => {
                                 <TableCell align="right">{row.quantity}</TableCell>
                                 <TableCell align="right"><Button variant="outlined" color="error" onClick={() => deleteBook(row._id)}>Xóa</Button></TableCell>
                             </TableRow>
+                            // </a>
                         )
                     })}
-                    {/*{rightows.map((row) => (*/}
-                    {/*    <TableRow*/}
-                    {/*        key={row.name}*/}
-                    {/*        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}*/}
-                    {/*    >*/}
-                    {/*        <TableCell component="th" scope="row">*/}
-                    {/*            {row.name}*/}
-                    {/*        </TableCell>*/}
-                    {/*        <TableCell align="right">{row.calories}</TableCell>*/}
-                    {/*        <TableCell align="right">{row.fat}</TableCell>*/}
-                    {/*        <TableCell align="right">{row.carbs}</TableCell>*/}
-                    {/*        <TableCell align="right">{row.protein}</TableCell>*/}
-                    {/*    </TableRow>*/}
-                    {/*))}*/}
+                   
                 </TableBody>
             </Table>
         </div>

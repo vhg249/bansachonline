@@ -1,32 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, LoginWrapper } from "../../signup/style";
 import { Input } from "../../../shared/components/Input";
 import { Button } from "../../../shared/components/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../constant";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
-export const AddBook = () => {
-    const [firstName, setFirstName] = useState("Nguyen");
-    const [price, setPrice] = useState("12000");
+export const UpdateBook = () => {
+    const [firstName, setFirstName] = useState("");
+    const [price, setPrice] = useState("");
     const [sale, setSale] = useState("");
-    const [image, setImage] = useState("https://cf.shopee.vn/file/4cc9fc9b2129728b8b1129ed79a309af");
-    const [author, setAuthor] = useState("An Cơ");
-    const [name, setName] = useState("Truyện doremon");
-    const [quantity, setQuantity] = useState("0123456789");
-    const [description, setDescription] = useState("Một chú mèo máy sinh ngày 3 tháng 9 năm 2112. Doraemon đã cưỡi cỗ máy thời gian đi ngược từ thế kỷ 22 về thế kỷ 20 để làm bạn với Nobita. Chiếc túi 4 chiều trước bụng Doraemon chứa đủ loại bảo bối thần kỳ, có thể cứu nguy cho Nobita mỗi khi cậu bạn hậu đậu này gặp rắc rối.")
-
-  const [category, setCategory] = useState("Truyện tranh");
-
+    const [image, setImage] = useState("");
+    const [author, setAuthor] = useState("");
+    const [name, setName] = useState("");
+    const [quantity, setQuantity] = useState("");
+    const [description, setDescription] = useState("")
+    const [data, setData] = useState();
+    
+  const [category, setCategory] = useState("");
+  const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const token = useSelector((state) => state.account.token);
-
-    const postBook = async (body) => {
+    const getBookById = () => {
+        axios.get(`${API_URL}/Book/getListBook?_id=${id}`)
+          .then(function (response) {
+            console.log(response);
+            setData(response.data.data.result[0]);
+            setAuthor(response.data.data.result[0].author);
+            setPrice(response.data.data.result[0].price);
+            setCategory(response.data.data.result[0].category[0]);
+            setPrice(response.data.data.result[0].price);
+            setQuantity(response.data.data.result[0].quantity);
+            setName(response.data.data.result[0].name);
+            setDescription(response.data.data.result[0].description);
+            setSale(response.data.data.result[0].sale);
+            setImage(response.data.data.result[0].image);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    const updateBook = async (body) => {
         try {
-            const res = await axios.post(`${API_URL}/Book/insert`, body, {
+            const res = await axios.put(`${API_URL}/Book/update`, body, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -54,7 +73,8 @@ export const AddBook = () => {
 
     const addBooks = async () => {
         // if(validate()){
-        const res = await postBook({
+        const res = await updateBook({
+            _id:id,
             name: name,
             author: author,
             category: [category],
@@ -70,11 +90,12 @@ export const AddBook = () => {
         }
         // }
     }
+    useEffect(()=>{getBookById()},[]);
 
     return (
         <div className="container">
             <LoginWrapper flexDirection={"column"} alignItems={"center"}>
-                <h1>thêm sách</h1>
+                <h1>Sửa sách</h1>
                 <Form>
                     <Input
                         label="Name"
@@ -143,7 +164,7 @@ export const AddBook = () => {
                         setValue={setSale}
                     />
 
-                    <Button onClick={addBooks}>Thêm sách</Button>
+                    <Button onClick={addBooks}>Cập nhật sách</Button>
                 </Form>
             </LoginWrapper>
         </div>
