@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledButton = styled.button`
   width: 208px;
-  background: #219653;
+  background: ${(props) => props.disabled ? "gray" : "#219653"};
   border-radius: 50px;
   font-family: 'Work Sans';
   font-style: normal;
@@ -13,4 +13,5 @@ export const StyledButton = styled.button`
   border: none;
   cursor: pointer;
   padding: 14px 0;
+  
 `;

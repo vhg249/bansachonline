@@ -48,7 +48,6 @@ export const User = () => {
           Authorization: "Bearer " + token,
         },
       });
-      console.log(res.data.data);
       setUsers(res.data.data);
     } catch (err) {
       console.log(err);

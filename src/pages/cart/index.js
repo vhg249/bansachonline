@@ -30,7 +30,6 @@ export const Cart = () => {
           Authorization: "Bearer " + token,
         },
       });
-      console.log("cart", res.data.data.result);
       setCartList(res.data.data.result);
     } catch (err) {
       console.log(err);
@@ -50,7 +49,6 @@ export const Cart = () => {
             },
           }
       );
-      console.log(res.data.data)
       if(res.data.data.result){
         dispatch(updateCheckout({checkoutResult: res.data.data}));
         navigate("/payment");

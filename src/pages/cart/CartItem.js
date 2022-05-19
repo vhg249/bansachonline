@@ -29,7 +29,6 @@ export const CartItem = ({ data, ...props }) => {
         },
         data: { deleteId: [idOrder] },
       });
-      console.log(res.data.data);
       if (res.data.data.result) {
         toast.success("Deleted");
         props.requestFetch();
