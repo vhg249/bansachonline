@@ -8,7 +8,6 @@ import { Input } from "../../shared/components/Input";
 import Flex from "../../shared/components/Flex";
 import { Button } from "../../shared/components/Button";
 import { toast } from "react-toastify";
-import {Link} from "react-router-dom";
 
 const ProfileWrapper = styled(VoucherWrapper)`
   display: flex;
@@ -17,7 +16,7 @@ const ProfileWrapper = styled(VoucherWrapper)`
   margin-bottom: 100px;
 `;
 
-export const Profile = () => {
+export const ChangePassword = () => {
   const [myProfile, setMyProfile] = useState();
   const isLogin = useSelector((state) => state.account.isLogin);
   const token = useSelector((state) => state.account.token);
@@ -70,61 +69,34 @@ export const Profile = () => {
     <>
       <div className="container">
         <ProfileWrapper>
-          <h1>Thông tin tài khoản</h1>
+          <h1>Đổi mật khẩu</h1>
           <Input
-            label="Tên"
-            type="text"
-            disabled={!isEdit}
-            value={!isEdit && myProfile ? myProfile.firstName : firstName}
-            setValue={setFirstName}
-          />
-          <Input
-            label="Họ"
-            type="text"
-            disabled={!isEdit}
-            value={!isEdit && myProfile ? myProfile.lastName : lastName}
-            setValue={setLastName}
-          />
-          <Input
-            label="Email"
-            type="email"
-            disabled={!isEdit}
-            value={!isEdit && myProfile ? myProfile.email : email}
-            setValue={setEmail}
-          />
-
-          <Input
-            label="Địa chỉ"
-            type="text"
-            disabled={!isEdit}
-            value={!isEdit && myProfile ? myProfile.address : address}
-            setValue={setAddress}
-          />
-          <Input
-            label="Số điện thoại"
-            type="text"
-            disabled={!isEdit}
-            value={!isEdit && myProfile ? myProfile.phoneNumber : phoneNumber}
-            setValue={setPhoneNumber}
-          />
-          <Input
-            label="Mật khẩu"
+            label="Mật khẩu cũ"
             type="password"
             disabled={!isEdit}
-            value={"1234567890"}
+            value={""}
+          />
+          <Input
+              label="Mật khẩu mới"
+              type="password"
+              disabled={!isEdit}
+              value={""}
+          />
+          <Input
+              label="Nhập lại mật khẩu mới"
+              type="password"
+              disabled={!isEdit}
+              value={""}
           />
           <Flex gap={"20px"} justifyContent="center">
             {isEdit ? (
-              <Button onClick={() => setIsEdit(false)}>Cập nhật</Button>
+              <Button onClick={() => setIsEdit(true)}>Cập nhật</Button>
             ) : (
               <>
                 <Button onClick={() => setIsEdit(true)}>
                   Cập nhật thông tin
                 </Button>
-                <Link to="/change-password">
-                  <Button>Đổi mật khẩu</Button>
-                </Link>
-
+                <Button>Đổi mật khẩu</Button>
               </>
             )}
           </Flex>

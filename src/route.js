@@ -20,6 +20,8 @@ import { UpdateBook } from "./pages/admin/product/update";
 import { EditBill } from "./pages/admin/bill/editBill";
 import { Profile } from "./pages/profile";
 import { Vouchers } from "./pages/admin/vouchers";
+import { EditVoucher } from "./pages/admin/vouchers/editVoucher";
+import { ChangePassword } from "./pages/change-password";
 
 const Router = () => {
   return (
@@ -35,6 +37,7 @@ const Router = () => {
       <Route path="/user-bill/:id" element={<BillDetail />} />
       <Route path="/voucher" element={<Voucher />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/change-password" element={<ChangePassword />} />
       <Route path="/manager" element={<Admin />}>
         <Route path="user" element={<User />} />
         <Route path="product" element={<Product />} />
@@ -43,6 +46,7 @@ const Router = () => {
         <Route path="add-book" element={<AddBook />} />
         <Route path="update-book/:id" element={<UpdateBook />} />
         <Route path="voucher" element={<Vouchers />} />
+        <Route path="voucher/:id" element={<EditVoucher />} />
         <Route path="bill/:id" element={<EditBill />} />
       </Route>
     </Routes>
