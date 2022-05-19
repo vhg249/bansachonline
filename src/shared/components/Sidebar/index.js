@@ -24,6 +24,9 @@ export const Sidebar = () => {
         <NavLink to="store">
           <NavItem>Store</NavItem>
         </NavLink>
+        <NavLink to="voucher">
+          <NavItem>Ma giam gia</NavItem>
+        </NavLink>
       </SidebarWrapper>
     </>
   );

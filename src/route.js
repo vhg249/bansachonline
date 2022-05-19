@@ -19,6 +19,7 @@ import { AddBook } from "./pages/admin/product/add";
 import { UpdateBook } from "./pages/admin/product/update";
 import { EditBill } from "./pages/admin/bill/editBill";
 import { Profile } from "./pages/profile";
+import { Vouchers } from "./pages/admin/vouchers";
 
 const Router = () => {
   return (
@@ -41,6 +42,7 @@ const Router = () => {
         <Route path="store" element={<Store />} />
         <Route path="add-book" element={<AddBook />} />
         <Route path="update-book/:id" element={<UpdateBook />} />
+        <Route path="voucher" element={<Vouchers />} />
         <Route path="bill/:id" element={<EditBill />} />
       </Route>
     </Routes>
