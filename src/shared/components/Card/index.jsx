@@ -8,7 +8,7 @@ export const Card = (props) =>{
 
             <div className="img">
                 <img src={props.data.image} alt="book" />
-                <p className="title">{props.data.name}</p>
+                <p className="title">{props.data.title}</p>
             </div>
             <div className="flex">
                 <p className="price">${props.data.price}</p>

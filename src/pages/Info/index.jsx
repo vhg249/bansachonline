@@ -46,10 +46,10 @@ export const Info = () => {
   }
   console.log(id);
   const getBookById = () => {
-    axios.get(`${API_URL}/Book/getListBook?_id=${id}`)
+    axios.get(`${API_URL}/products/${id}`)
       .then(function (response) {
         console.log(response);
-        setData(response.data.data.result[0]);
+        setData(response.data.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -79,7 +79,7 @@ export const Info = () => {
 
 
             <p>Color:<span> ELN001 </span></p>
-            <p>Categories:<span>{data?.category.map((item) => { return `${item}, ` })}</span></p>
+            {/* <p>Categories:<span>{data?.category.map((item) => { return `${item}, ` })}</span></p> */}
             <p>Tags:<span> Sweet, Vegetables, Food </span></p>
 
           </Content>
@@ -89,7 +89,7 @@ export const Info = () => {
       </Wrapper>
       <h3>Description</h3>
       <Content>
-        <p>{data?.description}</p></Content>
+        <p>{data?.describe}</p></Content>
       
     </div>
   );

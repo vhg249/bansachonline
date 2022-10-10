@@ -20,12 +20,12 @@ export const Products = () => {
     const [data, setData] = useState([]);
     const [category, setCategory] = useState([]);
 
-
     const getBook = () => {
         axios
-            .get(`${API_URL}/Book/getListBook`)
+            .get(`${API_URL}/products`)
             .then(function (response) {
-                setData(response.data.data.result);
+                console.log(response);
+                setData(response.data);
             })
             .catch(function (error) {
                 console.log(error);
@@ -43,28 +43,10 @@ export const Products = () => {
             });
     };
 
-    // let data = [{
-    //     name: "abc",
-    //     price: 10
-    // }, {
-    //     name: "abc",
-    //     price: 10
-    // }, {
-    //     name: "abc",
-    //     price: 10
-    // }, {
-    //     name: "abc",
-    //     price: 10
-    // }, {
-    //     name: "abc",
-    //     price: 10
-    // }, {
-    //     name: "abc",
-    //     price: 10
-    // }]
+    
     useEffect(() => {
         getBook();
-        getCategory();
+        // getCategory();
     }, [])
     useEffect(() => {
         console.log(name, isActive);
@@ -112,7 +94,7 @@ export const Products = () => {
         axios
             .get(`${API_URL}/Book/getListBook?name=${searchValue}`)
             .then(function (response) {
-                setData(response.data.data.result);
+                setData(response.data);
             })
             .catch(function (error) {
                 console.log(error);
@@ -144,7 +126,7 @@ export const Products = () => {
                         id="demo-simple-select"
                         value={searchValue}
                         label="Product Categories"
-                        onChange={handleChange}
+                        // onChange={handleChange}
                     >
                         {category && category.map((item, index) => {
                             return (
@@ -157,7 +139,9 @@ export const Products = () => {
             </Categories>
             <div>
                 <SearchInput>
-                    <input onChange={onSearch} type="text" placeholder="Tìm kiếm sản phẩm" />
+                    <input 
+                    // onChange={onSearch}
+                     type="text" placeholder="Tìm kiếm sản phẩm" />
                     <div className="icon">
                         <img src={searchIcon} alt={"search"} />
                     </div>
@@ -165,7 +149,7 @@ export const Products = () => {
                 <List>
                     {data.map((item, index) => {
                         return (
-                            <a href={`info/${item._id}`} key={index}>
+                            <a href={`/products/${item._id}`} key={index}>
                                 <Card data={item} />
                             </a>
                         )

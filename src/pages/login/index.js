@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 import {loginSuccess, updateToken} from "../../redux/actions/accounts";
 
 export const Login = () => {
-  const [email, setEmail] = useState("bbb@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("huytran");
+  const [password, setPassword] = useState("123");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,10 +22,16 @@ export const Login = () => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
-
+  const headers = {
+    'Content-Type': 'application/json'
+  }
   const loginApi = async (body) => {
     try {
-      const res = await axios.post(`${API_URL}/auth/login-user`, body);
+      const res = await axios.post(`${API_URL}/auth`, body,{
+        headers: headers});
+        dispatch(loginSuccess());
+        toast.success("Success");
+        navigate("/");
       return res.data.data;
     } catch (err) {
       console.log(err);
@@ -35,18 +41,16 @@ export const Login = () => {
   };
 
   const login = async () => {
-    if (!validateEmail(email)) {
-      toast.error("Nhập lại email");
+    if (false) {
+      toast.error("Nhập lại ");
     } else {
       const res = await loginApi({
-        email: email,
+        username: email,
         password: password,
       });
       if (res) {
-        dispatch(updateToken({ token: res.lastToken }));
-        dispatch(loginSuccess());
-        toast.success("Success");
-        navigate("/");
+         dispatch(updateToken({ token: res.access_token }));
+        
       }
     }
   };
@@ -57,9 +61,9 @@ export const Login = () => {
         <h1>Đăng nhập</h1>
         <Form>
           <Input
-            label="Email"
+            label="Username"
             type="text"
-            placeholder="Nhập email"
+            placeholder="Nhập username"
             required={true}
             value={email}
             setValue={setEmail}

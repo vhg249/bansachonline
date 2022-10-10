@@ -12,18 +12,20 @@ import {updateToken} from "../../redux/actions/accounts";
 export const Signup = () => {
   const [firstName, setFirstName] = useState("Nguyen");
   const [lastName, setLastName] = useState("Huong");
-  const [username, setUsername] = useState("vhg");
-  const [password, setPassword] = useState("123456");
-  const [confirmPassword, setConfirmPassword] = useState("123456");
+  const [username, setUsername] = useState("tranhuy");
+  const [password, setPassword] = useState("123");
+  const [confirmPassword, setConfirmPassword] = useState("123");
   const [email, setEmail] = useState("bbb@gmail.com");
-  const [phoneNumber, setPhoneNumber] = useState("0123456789");
+  const [phoneNumber, setPhoneNumber] = useState("22");
   const [address, setAddress] = useState("HaDong");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const postUser = async (body) => {
     try{
-      const res = await axios.post(`${API_URL}/auth`, body)
+      const res = await axios.post(`${API_URL }/users`, body);
+      toast.success("Success");
+      navigate("/login");
       return res.data.data;
     }
     catch (err){
@@ -51,12 +53,10 @@ export const Signup = () => {
       toast.error("Vui lòng điền đầy đủ thông tin");
       return false;
     } else if(!validateEmail(email)){
-      toast.error("Nhập lại email");
+      toast.error("Nhập lại ");
       return false;
-    } else if(!validatePhone(phoneNumber)){
-      toast.error("Nhập lại số điện thoại");
-      return false;
-    } else if(password !== confirmPassword){
+    } 
+     else if(password !== confirmPassword){
       toast.error("Mật khẩu không khớp");
       return false;
     } else {
@@ -67,18 +67,17 @@ export const Signup = () => {
   const register = async () => {
     if(validate()){
       const res = await postUser({
-        email: email,
+        // email: email,
         password: password,
-        phoneNumber: phoneNumber,
+        age: phoneNumber,
         address: address,
-        userName: username,
-        firstName: firstName,
-        lastName: lastName
+        username: username,
+        // firstName: firstName,
+        // lastName: lastName
       })
       if(res){
-        dispatch(updateToken({token: res.lastToken}));
-        toast.success("Success");
-        navigate("/login");
+        // dispatch(updateToken({token: res.lastToken}));
+       
       }
     }
   }
@@ -88,7 +87,7 @@ export const Signup = () => {
       <LoginWrapper flexDirection={"column"} alignItems={"center"}>
         <h1>Đăng ký</h1>
         <Form>
-          <Input
+          {/* <Input
             label="Tên"
             type="text"
             placeholder="Nhập tên"
@@ -103,23 +102,23 @@ export const Signup = () => {
             required={true}
             value={lastName}
             setValue={setLastName}
-          />
+          /> */}
           <Input
             label="Tên đăng nhập"
             type="text"
-            placeholder="Nhập tên"
+            placeholder="Nhập username"
             required={true}
             value={username}
             setValue={setUsername}
           />
-          <Input
+          {/* <Input
             label="Email"
             type="email"
             placeholder="Nhập email"
             required={true}
             value={email}
             setValue={setEmail}
-          />
+          /> */}
 
           <Input
             label="Địa chỉ"
@@ -130,9 +129,9 @@ export const Signup = () => {
             setValue={setAddress}
           />
           <Input
-            label="Số điện thoại"
+            label="Tuổi"
             type="text"
-            placeholder="Nhập số điện thoại"
+            placeholder="Nhập tuổi"
             required={true}
             value={phoneNumber}
             setValue={setPhoneNumber}
