@@ -50,9 +50,9 @@ export const Header = () => {
         <Flex gap="24px">
           <MenuProfile profile={myProfile}/>
           <Profile>
-            <Link to="/cart">
+            {/* <Link to="/cart"> */}
               <img src={cartIcon} alt={"profile"} />
-            </Link>
+            {/* </Link> */}
           </Profile>
         </Flex>
       </div>
