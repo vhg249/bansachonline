@@ -15,7 +15,7 @@ export const Info = () => {
   const token = useSelector((state) => state.account.token);
 
   const [data, setData] = useState();
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
 
   const onChangeQuantity = (e) =>{
@@ -44,7 +44,32 @@ export const Info = () => {
         toast.error("Error")
       });
   }
-  console.log(id);
+  const handleBuy = () =>{
+    axios.post(`${API_URL}/bills`,{
+        title: data.title,
+        price: data.price,
+        quantity: quantity,
+        username: localStorage.getItem("username"),
+        address:"Ha Dong, Ha Noi",
+        hash_bill:"idfeeebakhfsksdfir924823r23ef"
+        
+    },{
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then(function (response) {
+        // console.log(response);
+        toast.success("Đã mua thanh cong!");
+        // navigate("/cart");
+      })
+      .catch(function (error) {
+        console.log(error);
+        toast.error("Error")
+      });
+  }
   const getBookById = () => {
     axios.get(`${API_URL}/products/${id}`)
       .then(function (response) {
@@ -73,7 +98,9 @@ export const Info = () => {
           <div className="line"></div>
           <div className="flex">
             <input type="number" placeholder="quantity" onChange={(e) => onChangeQuantity(e)} />
-            <img onClick={addToCard} src={add} />
+            {/* <img onClick={addToCard} src={add} /> */}
+            <img onClick={handleBuy} src={add} />
+
           </div>
           <Content>
 

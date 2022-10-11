@@ -26,30 +26,33 @@ export const MenuProfile = (props) => {
     setAnchorEl(null);
   };
   const logout = async () => {
-    try {
-      const res = await axios.post(
-        `${API_URL}/auth/logout-user`,
-        {},
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      if (res.data.data.result) {
-        dispatch(updateToken({ token: "" }));
-        dispatch(logoutSuccess());
+    localStorage.removeItem("username");
+    dispatch(logoutSuccess());
         navigate("/login");
-      }
-      handleClose();
-    } catch (err) {
-      console.log(err);
-      toast.error(err.response.data.message);
-      handleClose();
-      return null;
-    }
+    // try {
+    //   const res = await axios.post(
+    //     `${API_URL}/auth/logout-user`,
+    //     {},
+    //     {
+    //       headers: {
+    //         Accept: "application/json",
+    //         "Content-Type": "application/json",
+    //         Authorization: "Bearer " + token,
+    //       },
+    //     }
+    //   );
+    //   if (res.data.data.result) {
+    //     dispatch(updateToken({ token: "" }));
+    //     dispatch(logoutSuccess());
+    //     navigate("/login");
+    //   }
+    //   handleClose();
+    // } catch (err) {
+    //   console.log(err);
+    //   toast.error(err.response.data.message);
+    //   handleClose();
+    //   return null;
+    // }
   };
 
   return (
@@ -64,7 +67,7 @@ export const MenuProfile = (props) => {
         <img src={profileIcon} alt={"profile"} />
         <div>
           {isLogin ? (
-            <p>{props.profile ? props.profile.lastName : "---"}</p>
+            <p>{localStorage.getItem("username") ? localStorage.getItem("username") : "---"}</p>
           ) : (
             <>
               <p>My Account</p>

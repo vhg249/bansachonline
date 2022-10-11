@@ -29,6 +29,7 @@ export const Login = () => {
     try {
       const res = await axios.post(`${API_URL}/auth`, body,{
         headers: headers});
+        localStorage.setItem("username",email);
         dispatch(loginSuccess());
         toast.success("Success");
         navigate("/");
