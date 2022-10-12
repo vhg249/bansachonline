@@ -47,27 +47,30 @@ export const Info = () => {
         console.log(error);
         toast.error("Error");
       });
-  };
-  const handleBuy = () => {
-    axios
-      .post(
-        `${API_URL}/bills`,
-        {
-          title: data.title,
-          price: data.price,
-          quantity: quantity,
-          username: localStorage.getItem("username"),
-          address: "Ha Dong, Ha Noi",
-          hash_bill: "idfeeebakhfsksdfir924823r23ef",
-        },
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+  }
+  const handleBuy = () =>{
+    if(!localStorage.getItem("username")){
+      toast.error("You are not login!");
+    }
+    else{
+
+    
+    axios.post(`${API_URL}/bills`,{
+        title: data.title,
+        price: data.price * quantity,
+        image:data.image,
+        quantity: quantity,
+        username: localStorage.getItem("username"),
+        address:"Ha Dong, Ha Noi",
+        hash_bill:"idfeeebakhfsksdfir924823r2gg3ef"
+        
+    },{
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
       .then(function (response) {
         // console.log(response);
         toast.success("Đã mua thanh cong!");
@@ -77,7 +80,8 @@ export const Info = () => {
         console.log(error);
         toast.error("Error");
       });
-  };
+    }
+  }
   const getBookById = () => {
     axios
       .get(`${API_URL}/products/${id}`)
