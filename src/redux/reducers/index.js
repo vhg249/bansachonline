@@ -12,7 +12,8 @@ const persistConfig = {
 
 const allReducers = combineReducers({
   account,
-  cart
+  cart,
+  
 });
 
 const persistedReducer = persistReducer(persistConfig, allReducers);
