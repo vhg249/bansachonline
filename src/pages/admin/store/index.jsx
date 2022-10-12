@@ -21,7 +21,7 @@ export const Store = () => {
     axios
       .get(`${API_URL}/Book/getListBook`)
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         setData(response.data.data.result);
       })
       .catch(function (error) {
@@ -47,7 +47,7 @@ export const Store = () => {
           Authorization: "Bearer " + token,
         }})
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         toast.success("Nhap hang thanh cong")
       })
       .catch(function (error) {
@@ -72,7 +72,7 @@ export const Store = () => {
           Authorization: "Bearer " + token,
         }})
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         toast.success("Xuat hang thanh cong")
       })
       .catch(function (error) {

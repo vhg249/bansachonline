@@ -5,9 +5,9 @@ import { Button } from "../../shared/components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constant";
-import {toast} from "react-toastify";
-import {useDispatch} from "react-redux";
-import {updateToken} from "../../redux/actions/accounts";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { updateToken } from "../../redux/actions/accounts";
 
 export const Signup = () => {
   const [firstName, setFirstName] = useState("Nguyen");
@@ -20,67 +20,97 @@ export const Signup = () => {
   const [address, setAddress] = useState("HaDong");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [walletAddress, setWalletAddress] = useState("");
+
+  const connectWallet = () => {
+    window.ethereum
+      .request({ method: "eth_requestAccounts" })
+      .then((_address) => {
+        // console.log(_address);
+        setWalletAddress(_address);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const postUser = async (body) => {
-    try{
-      const res = await axios.post(`${API_URL }/users`, body);
+    try {
+      const res = await axios.post(`${API_URL}/users`, body);
       toast.success("Success");
       navigate("/login");
       return res.data.data;
-    }
-    catch (err){
+    } catch (err) {
       console.log(err);
-      toast.error(err.response.data.message)
+      toast.error(err.response.data.message);
       return null;
     }
   };
 
   const validateEmail = (email) => {
     return String(email)
-        .toLowerCase()
-        .match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
   };
 
   const validatePhone = (inputtxt) => {
     var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    return phoneno.test(inputtxt)
-  }
+    return phoneno.test(inputtxt);
+  };
 
   const validate = () => {
-    if(email === "" || password === "" || confirmPassword === "" || phoneNumber === "" || address === "" || username === "" || firstName === "" || lastName === ""){
+    if (
+      email === "" ||
+      password === "" ||
+      confirmPassword === "" ||
+      phoneNumber === "" ||
+      address === "" ||
+      username === "" ||
+      firstName === "" ||
+      lastName === ""
+    ) {
       toast.error("Vui lòng điền đầy đủ thông tin");
       return false;
-    } else if(!validateEmail(email)){
+    } else if (!validateEmail(email)) {
       toast.error("Nhập lại ");
       return false;
-    } 
-     else if(password !== confirmPassword){
+    } else if (password !== confirmPassword) {
       toast.error("Mật khẩu không khớp");
       return false;
     } else {
       return true;
     }
-  }
+  };
 
   const register = async () => {
-    if(validate()){
-      const res = await postUser({
-        // email: email,
-        password: password,
-        age: phoneNumber,
-        address: address,
-        username: username,
-        // firstName: firstName,
-        // lastName: lastName
-      })
-      if(res){
-        // dispatch(updateToken({token: res.lastToken}));
-       
-      }
+    if (validate()) {
+      window.ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then(async (_address) => {
+          setWalletAddress(_address);
+          // console.log("wallet ", _address[0]);
+          const res = await postUser({
+            // email: email,
+            password: password,
+            age: phoneNumber,
+            address: address,
+            username: username,
+            walletAddress: _address[0]
+            // firstName: firstName,
+            // lastName: lastName
+          });
+          if (res) {
+            // console.log(res);
+            // dispatch(updateToken({token: res.lastToken}));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }
+  };
 
   return (
     <div className="container">

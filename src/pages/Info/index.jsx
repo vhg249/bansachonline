@@ -86,7 +86,7 @@ export const Info = () => {
     axios
       .get(`${API_URL}/products/${id}`)
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         setData(response.data.data);
       })
       .catch(function (error) {

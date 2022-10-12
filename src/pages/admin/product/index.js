@@ -19,7 +19,7 @@ export const Product = () => {
         axios
             .get(`${API_URL}/Book/getListBook`)
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
                 setData(response.data.data.result);
             })
             .catch(function (error) {

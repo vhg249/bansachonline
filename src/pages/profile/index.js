@@ -30,7 +30,7 @@ export const Profile = () => {
   const [address, setAddress] = useState("HaDong");
 
   useEffect(() => {
-    getMeApi();
+    // getMeApi();
   }, []);
 
   const getMeApi = async () => {

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../constant";
 import { toast } from "react-toastify";
-import {loginSuccess, updateToken} from "../../redux/actions/accounts";
+import { loginSuccess, updateToken } from "../../redux/actions/accounts";
 
 export const Login = () => {
   const [email, setEmail] = useState("huytran");
@@ -23,17 +23,15 @@ export const Login = () => {
       );
   };
   const headers = {
-    'Content-Type': 'application/json'
-  }
+    "Content-Type": "application/json",
+  };
   const loginApi = async (body) => {
     try {
-      const res = await axios.post(`${API_URL}/auth`, body,{
-        headers: headers});
-        localStorage.setItem("username",email);
-        dispatch(loginSuccess());
-        toast.success("Success");
-        navigate("/");
-      return res.data.data;
+      const res = await axios.post(`${API_URL}/auth`, body, {
+        headers: headers,
+      });
+      localStorage.setItem("username", email);
+      return res.data;
     } catch (err) {
       console.log(err);
       toast.error(err.response.data.message);
@@ -49,11 +47,38 @@ export const Login = () => {
         username: email,
         password: password,
       });
+      window.ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then((_address) => {
+          if (res.user.walletAddress === _address[0]) {
+            dispatch(loginSuccess());
+            toast.success("Success");
+            navigate("/");
+          } else {
+            toast.error("Wallet address is invalid");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       if (res) {
-         dispatch(updateToken({ token: res.access_token }));
-        
+        dispatch(updateToken({ token: res.access_token }));
       }
     }
+  };
+
+  const connectWallet = (address) => {
+    window.ethereum
+      .request({ method: "eth_requestAccounts" })
+      .then((_address) => {
+        console.log(_address[0] === address);
+        if (address === _address[0]) return true;
+        // setAddress(_address);
+        // setIsLogin(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

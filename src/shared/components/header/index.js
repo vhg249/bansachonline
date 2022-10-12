@@ -20,7 +20,7 @@ export const Header = () => {
 
   useEffect(() => {
     if(isLogin){
-      getMeApi();
+      // getMeApi();
     }
   }, [isLogin]);
 

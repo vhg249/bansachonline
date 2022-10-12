@@ -24,7 +24,7 @@ export const Products = () => {
         axios
             .get(`${API_URL}/products`)
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
                 setData(response.data);
             })
             .catch(function (error) {
@@ -35,7 +35,7 @@ export const Products = () => {
         axios
             .get(`${API_URL}/Category/getListCategory`)
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
                 setCategory(response.data.data.result);
             })
             .catch(function (error) {
@@ -49,7 +49,7 @@ export const Products = () => {
         // getCategory();
     }, [])
     useEffect(() => {
-        console.log(name, isActive);
+        // console.log(name, isActive);
         // let strNew = [...str];
         // let query="";
         // if (isActive) {
