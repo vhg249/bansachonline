@@ -18,19 +18,19 @@ export const Cart = () => {
   const [orderList, setOrderList] = useState([]);
 
   useEffect(() => {
-    getCartApi();
+    getBillApi();
   }, []);
 
-  const getCartApi = async () => {
+  const getBillApi = async () => {
     try {
-      const res = await axios.get(`${API_URL}/Order/getListOrder`, {
+      const res = await axios.get(`${API_URL}/bills/${localStorage.getItem("username")}`, {
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
+          "Content-Type": "application/json"
         },
       });
-      setCartList(res.data.data.result);
+      console.log(res.data.data);
+      setCartList(res.data.data);
     } catch (err) {
       console.log(err);
     }
@@ -44,14 +44,13 @@ export const Cart = () => {
           {
             headers: {
               Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token,
+              "Content-Type": "application/json"
             },
           }
       );
       if(res.data.data.result){
         dispatch(updateCheckout({checkoutResult: res.data.data}));
-        navigate("/payment");
+        // navigate("/payment");
       }
     } catch (err){
       console.log(err);
@@ -73,14 +72,16 @@ export const Cart = () => {
   return (
     <div className="container">
       <CartWrapper>
-        <h1>Giỏ hàng ({cartList ? cartList.length : 0} sản phẩm)</h1>
+        <h1>Lịch sử đơn hàng ({cartList ? cartList.length : 0} đơn)</h1>
         <div>
           {cartList &&
             cartList.map((item, index) => (
-              <CartItem data={item} key={index} selectOrder={selectOrder} requestFetch={getCartApi} />
+              <CartItem data={item} key={index} requestFetch={getBillApi} />
             ))}
         </div>
-        <Button onClick={() => checkoutPayment()}>Thanh toán</Button>
+        <Button
+         onClick={() => navigate("/")}
+        >Back to shop</Button>
       </CartWrapper>
     </div>
   );

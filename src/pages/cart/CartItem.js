@@ -24,8 +24,7 @@ export const CartItem = ({ data, ...props }) => {
       const res = await axios.delete(`${API_URL}/Order/deleteOrder`, {
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
+          "Content-Type": "application/json"
         },
         data: { deleteId: [idOrder] },
       });
@@ -41,28 +40,28 @@ export const CartItem = ({ data, ...props }) => {
   return (
     <Item>
       <div>
-        <Checkbox
+        {/* <Checkbox
           color="success"
           onChange={(e) => handleOnChange(e.target.checked)}
-        />
+        /> */}
       </div>
       <div className="image">
-        <img src={data ? data.book[0].image : ""} alt="book" />
+        <img src={data ? data.image : ""} alt="book" />
         <Flex flexDirection="column" justifyContent="space-between">
-          <p className="name">{data ? data.book[0].name : ""}</p>
+          <p className="name">{data ? data.title : ""}</p>
           <p className="price">{data ? data.price.toLocaleString() : ""}đ</p>
         </Flex>
       </div>
       <div>Số lượng: {data ? data.quantity : 0}</div>
       <div>{data ? handlePrice(data.price, data.quantity) : ""}đ</div>
-      <div>
+      {/* <div>
         <img
           className="delete"
           src={trash}
           alt="trash"
           onClick={() => deleteOrder(data._id)}
         />
-      </div>
+      </div> */}
     </Item>
   );
 };

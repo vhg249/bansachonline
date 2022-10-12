@@ -45,13 +45,20 @@ export const Info = () => {
       });
   }
   const handleBuy = () =>{
+    if(!localStorage.getItem("username")){
+      toast.error("You are not login!");
+    }
+    else{
+
+    
     axios.post(`${API_URL}/bills`,{
         title: data.title,
-        price: data.price,
+        price: data.price * quantity,
+        image:data.image,
         quantity: quantity,
         username: localStorage.getItem("username"),
         address:"Ha Dong, Ha Noi",
-        hash_bill:"idfeeebakhfsksdfir924823r23ef"
+        hash_bill:"idfeeebakhfsksdfir924823r2gg3ef"
         
     },{
       headers: {
@@ -69,6 +76,7 @@ export const Info = () => {
         console.log(error);
         toast.error("Error")
       });
+    }
   }
   const getBookById = () => {
     axios.get(`${API_URL}/products/${id}`)
