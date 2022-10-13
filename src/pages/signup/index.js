@@ -37,9 +37,22 @@ export const Signup = () => {
   const postUser = async (body) => {
     try {
       const res = await axios.post(`${API_URL}/users`, body);
-      toast.success("Success");
-      navigate("/login");
+      console.log(res);
+      if(res.data.newUser==="Wallet Address exists"){
+        toast.error("Wallet Address exists");
+        return;
+      }
+      if(res.data.newUser==="User exists"){
+        toast.error("User exists");
+        return;
+      }
+      else{
+        toast.success("Success");
+        navigate("/login");
       return res.data.data;
+
+      }
+      
     } catch (err) {
       console.log(err);
       toast.error(err.response.data.message);
