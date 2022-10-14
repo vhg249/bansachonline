@@ -9,6 +9,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constant";
 import { useDispatch, useSelector } from "react-redux";
+import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
+import { ethers } from "ethers";
 
 export const Info = () => {
   const { id } = useParams();
@@ -17,6 +19,26 @@ export const Info = () => {
   const [data, setData] = useState();
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
+
+  const PROVIDER = new ethers.providers.Web3Provider(window.ethereum, "any");
+  const [signer, setSigner] = useState();
+  const [read, setRead] = useState(
+    new ethers.Contract(CONTRACT_ADDRESS, ABI, PROVIDER)
+  );
+  const [write, setWrite] = useState();
+
+  useEffect(() => {
+    setSigner(PROVIDER.getSigner());
+    setRead(new ethers.Contract(CONTRACT_ADDRESS, ABI, PROVIDER));
+    
+
+  }, []);
+
+  useEffect(() => {
+    if (signer) {
+      setWrite(new ethers.Contract(CONTRACT_ADDRESS, ABI, signer));
+    }
+  }, [signer]);
 
   const onChangeQuantity = (e) => {
     setQuantity(e.target.value);
@@ -47,41 +69,54 @@ export const Info = () => {
         console.log(error);
         toast.error("Error");
       });
-  }
-  const handleBuy = () =>{
-    if(!localStorage.getItem("username")){
+  };
+  const handleBuy = async () => {
+    if (!localStorage.getItem("username")) {
       toast.error("You are not login!");
+    } else {
+      console.log(
+        data,
+        quantity,
+        ethers.utils.parseEther((data.price * quantity).toString())
+      );
+      write
+        .buy(Number(data.productId), quantity, {
+          value: ethers.utils.parseEther((data.price * quantity).toString()),
+        })
+        .then((res) => {
+          console.log("buy: ", res);
+          axios
+            .post(
+              `${API_URL}/bills`,
+              {
+                title: data.title,
+                price: data.price,
+                image: data.image,
+                quantity: quantity,
+                username: localStorage.getItem("username"),
+                address: "Ha Dong, Ha Noi",
+                hash_bill: res.hash,
+              },
+              {
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + token,
+                },
+              }
+            )
+            .then(function (response) {
+              // console.log(response);
+              toast.success("Đã mua thanh cong!");
+              // navigate("/cart");
+            })
+            .catch(function (error) {
+              console.log(error);
+              toast.error("Error");
+            });
+        });
     }
-    else{
-
-    
-    axios.post(`${API_URL}/bills`,{
-        title: data.title,
-        price: data.price * quantity,
-        image:data.image,
-        quantity: quantity,
-        username: localStorage.getItem("username"),
-        address:"Ha Dong, Ha Noi",
-        hash_bill:"idfeeebakhfsksdfir924823r2gg3ef"
-        
-    },{
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then(function (response) {
-        // console.log(response);
-        toast.success("Đã mua thanh cong!");
-        // navigate("/cart");
-      })
-      .catch(function (error) {
-        console.log(error);
-        toast.error("Error");
-      });
-    }
-  }
+  };
   const getBookById = () => {
     axios
       .get(`${API_URL}/products/${id}`)
@@ -105,7 +140,7 @@ export const Info = () => {
         <FlexRight>
           <p className="title">{data?.title}</p>
           <p className="review">{data?.author}</p>
-          <p className="price">${data?.price}</p>
+          <p className="price">{data?.price} ETH</p>
           <div className="line"></div>
           <div className="flex">
             <input

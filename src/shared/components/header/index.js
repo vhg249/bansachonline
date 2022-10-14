@@ -5,7 +5,7 @@ import searchIcon from "../../../assets/images/search.png";
 import profileIcon from "../../../assets/images/profile.png";
 import cartIcon from "../../../assets/images/cart.png";
 import Flex from "../Flex";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {MenuProfile} from "../MenuProfile";
 import axios from "axios";
 import {API_URL} from "../../../pages/constant";
@@ -17,11 +17,16 @@ export const Header = () => {
   const isLogin = useSelector((state) => state.account.isLogin);
   const token = useSelector((state) => state.account.token);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if(isLogin){
       // getMeApi();
     }
+    window.ethereum.on('accountsChanged', function (accounts) {
+      // Time to reload your interface with accounts[0]!
+      navigate('/login')
+    })
   }, [isLogin]);
 
   const getMeApi = async () => {

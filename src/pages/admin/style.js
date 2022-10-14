@@ -24,7 +24,12 @@ export const Wrapper = styled.div`
   }
 `;
 export const WrapTable = styled.div`
+overflow-x: scroll;
+width: 70vw;
   *{
     text-align: center;
+  }
+  td, th{
+    white-space: nowrap;
   }
 `;

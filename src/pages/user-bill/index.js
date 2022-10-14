@@ -67,14 +67,14 @@ export const UserBill = () => {
                               item.checkout_result[0].book.price,
                               item.checkout_result[0].quantity
                           )}
-                          đ
+                          ETH
                         </div>
                       </Item>
                       <Total>
                         <p>Tổng:</p>
                         <Flex alignItems="center">
                           {/*<p>{checkout ? checkout.price.toLocaleString() : 0}đ</p>*/}
-                          <p>{item.price}đ</p>
+                          <p>{item.price}ETH</p>
                         </Flex>
                       </Total>
                     </BillItem>
