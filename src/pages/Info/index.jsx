@@ -30,8 +30,6 @@ export const Info = () => {
   useEffect(() => {
     setSigner(PROVIDER.getSigner());
     setRead(new ethers.Contract(CONTRACT_ADDRESS, ABI, PROVIDER));
-    
-
   }, []);
 
   useEffect(() => {
@@ -74,59 +72,67 @@ export const Info = () => {
     if (!localStorage.getItem("username")) {
       toast.error("You are not login!");
     } else {
-      console.log(
-        data,
-        quantity,
-        ethers.utils.parseEther((data.price * quantity).toString())
-      );
       write
-        .buy(Number(data.productId), quantity, {
+        .buy(data._id, quantity, {
           value: ethers.utils.parseEther((data.price * quantity).toString()),
         })
         .then((res) => {
           console.log("buy: ", res);
-          axios
-            .post(
-              `${API_URL}/bills`,
-              {
-                title: data.title,
-                price: data.price,
-                image: data.image,
-                quantity: quantity,
-                username: localStorage.getItem("username"),
-                address: "Ha Dong, Ha Noi",
-                hash_bill: res.hash,
-              },
-              {
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer " + token,
-                },
-              }
-            )
-            .then(function (response) {
-              // console.log(response);
-              toast.success("Đã mua thanh cong!");
-              // navigate("/cart");
-            })
-            .catch(function (error) {
-              console.log(error);
-              toast.error("Error");
-            });
+          // axios
+          //   .post(
+          //     `${API_URL}/bills`,
+          //     {
+          //       title: data.title,
+          //       price: data.price,
+          //       image: data.image,
+          //       quantity: quantity,
+          //       username: localStorage.getItem("username"),
+          //       address: "Ha Dong, Ha Noi",
+          //       hash_bill: res.hash,
+          //     },
+          //     {
+          //       headers: {
+          //         Accept: "application/json",
+          //         "Content-Type": "application/json",
+          //         Authorization: "Bearer " + token,
+          //       },
+          //     }
+          //   )
+          //   .then(function (response) {
+          //     // console.log(response);
+          //     toast.success("Đã mua thanh cong!");
+          //     // navigate("/cart");
+          //   })
+          //   .catch(function (error) {
+          //     console.log(error);
+          //     toast.error("Error");
+          //   });
+        }).catch((err) => {
+          toast.error(err.data.message);
+          // console.log(err.data.message);
         });
     }
   };
   const getBookById = () => {
-    axios
-      .get(`${API_URL}/products/${id}`)
-      .then(function (response) {
-        // console.log(response);
-        setData(response.data.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    read.products(id-1).then((res) => {
+      let obj = {
+        title: res.title,
+        price: Number(res.price) / 1e18,
+        image: res.image,
+        desc: res.desc,
+        _id: Number(res.productId),
+      };
+      setData(obj)
+    });
+    // axios
+    //   .get(`${API_URL}/products/${id}`)
+    //   .then(function (response) {
+    //     // console.log(response);
+    //     setData(response.data.data);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
   };
   useEffect(() => {
     getBookById();
@@ -152,12 +158,12 @@ export const Info = () => {
             <img onClick={handleBuy} src={add} />
           </div>
           <Content>
-            <p>
+            {/* <p>
               Color:<span> ELN001 </span>
-            </p>
+            </p> */}
             {/* <p>Categories:<span>{data?.category.map((item) => { return `${item}, ` })}</span></p> */}
             <p>
-              Tags:<span> Sweet, Vegetables, Food </span>
+              Tags:<span> Book </span>
             </p>
           </Content>
         </FlexRight>

@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0x7b12520Cd3698390bbBF13DDf0317A0c9c7e4d2d"
+export const CONTRACT_ADDRESS = "0xDbdff2280fe0935c641c96DBF28D288878A0A77e"
 export const ABI = [
 	{
 		"anonymous": false,
@@ -101,6 +101,19 @@ export const ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getCounter",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -144,6 +157,11 @@ export const ABI = [
 				"internalType": "bool",
 				"name": "delivered",
 				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "image",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -165,6 +183,11 @@ export const ABI = [
 				"internalType": "uint256",
 				"name": "_price",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_image",
+				"type": "string"
 			}
 		],
 		"name": "registerProduct",
