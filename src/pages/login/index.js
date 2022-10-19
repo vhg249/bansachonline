@@ -54,6 +54,7 @@ export const Login = () => {
             dispatch(loginSuccess());
             toast.success("Success");
             navigate("/");
+            localStorage.setItem('walletAddress', _address)
           } else {
             toast.error("Wallet address is invalid");
           }
@@ -65,20 +66,6 @@ export const Login = () => {
         dispatch(updateToken({ token: res.access_token }));
       }
     }
-  };
-
-  const connectWallet = (address) => {
-    window.ethereum
-      .request({ method: "eth_requestAccounts" })
-      .then((_address) => {
-        console.log(_address[0] === address);
-        if (address === _address[0]) return true;
-        // setAddress(_address);
-        // setIsLogin(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   return (

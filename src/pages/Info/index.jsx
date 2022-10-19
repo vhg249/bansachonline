@@ -78,6 +78,7 @@ export const Info = () => {
         })
         .then((res) => {
           console.log("buy: ", res);
+          if(res) toast.success("Success")
           // axios
           //   .post(
           //     `${API_URL}/bills`,
@@ -170,7 +171,7 @@ export const Info = () => {
       </Wrapper>
       <h3>Description</h3>
       <Content>
-        <p>{data?.describe}</p>
+        <p>{data?.desc}</p>
       </Content>
     </div>
   );

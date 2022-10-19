@@ -42,6 +42,7 @@ export const Products = () => {
                     _id: Number(res.productId)
                 }
                 books.push(obj);
+                // console.log(books);
                 setData(books)
             })
         }

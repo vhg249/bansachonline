@@ -37,6 +37,11 @@ export const Signup = () => {
   const postUser = async (body) => {
     try {
       const res = await axios.post(`${API_URL}/users`, body);
+      // console.log("signup", res);
+      if(res.data.newUser === "Wallet Address exists" || res.data.newUser === "User exists"){
+        toast.error(res.data.newUser);
+        return null;
+      }
       toast.success("Success");
       navigate("/login");
       return res.data.data;
@@ -90,7 +95,7 @@ export const Signup = () => {
         .request({ method: "eth_requestAccounts" })
         .then(async (_address) => {
           setWalletAddress(_address);
-          // console.log("wallet ", _address[0]);
+          console.log("wallet ", _address[0]);
           const res = await postUser({
             // email: email,
             password: password,
@@ -102,7 +107,6 @@ export const Signup = () => {
             // lastName: lastName
           });
           if (res) {
-            // console.log(res);
             // dispatch(updateToken({token: res.lastToken}));
           }
         })

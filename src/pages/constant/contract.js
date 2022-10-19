@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0xDbdff2280fe0935c641c96DBF28D288878A0A77e"
+export const CONTRACT_ADDRESS = "0x0B6e9bCf55a42ae8DE1Fbdb2abe52273B234dB46"
 export const ABI = [
 	{
 		"anonymous": false,
@@ -32,6 +32,24 @@ export const ABI = [
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_productId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "buy",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -43,6 +61,19 @@ export const ABI = [
 		],
 		"name": "delivered",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_productId",
+				"type": "uint256"
+			}
+		],
+		"name": "delivery",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -72,32 +103,42 @@ export const ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_productId",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "_title",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_desc",
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "quantity",
+				"name": "_price",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_image",
+				"type": "string"
 			}
 		],
-		"name": "buy",
+		"name": "registerProduct",
 		"outputs": [],
-		"stateMutability": "payable",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "getContractBalance",
+		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "_productId",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "delivery",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -165,34 +206,6 @@ export const ABI = [
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_title",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_desc",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_price",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_image",
-				"type": "string"
-			}
-		],
-		"name": "registerProduct",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]

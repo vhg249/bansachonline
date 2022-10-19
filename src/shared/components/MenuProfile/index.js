@@ -27,6 +27,7 @@ export const MenuProfile = (props) => {
   };
   const logout = async () => {
     localStorage.removeItem("username");
+    localStorage.removeItem("walletAddress");
     dispatch(logoutSuccess());
         navigate("/login");
     // try {

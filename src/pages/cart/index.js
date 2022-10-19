@@ -8,6 +8,9 @@ import { API_URL } from "../constant";
 import {useDispatch, useSelector} from "react-redux";
 import {toast} from "react-toastify";
 import {updateCheckout} from "../../redux/actions/cart";
+import Web3 from "web3";
+import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
+import { ethers } from "ethers";
 
 export const Cart = () => {
   const navigate = useNavigate();
@@ -17,8 +20,16 @@ export const Cart = () => {
   const [cartList, setCartList] = useState([]);
   const [orderList, setOrderList] = useState([]);
 
+  const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+  const myContract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
+  const PROVIDER = new ethers.providers.Web3Provider(window.ethereum, "any");
+  const [read, setRead] = useState(
+    new ethers.Contract(CONTRACT_ADDRESS, ABI, PROVIDER)
+  );
+
   useEffect(() => {
-    getBillApi();
+    // getBillApi();
+    getBillData();
   }, []);
 
   const getBillApi = async () => {
@@ -36,38 +47,67 @@ export const Cart = () => {
     }
   };
 
-  const checkoutPayment = async () => {
-    try{
-      const res = await axios.post(
-          `${API_URL}/Bill/checkout`,
-          { orderlist: orderList },
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
-            },
-          }
-      );
-      if(res.data.data.result){
-        dispatch(updateCheckout({checkoutResult: res.data.data}));
-        // navigate("/payment");
-      }
-    } catch (err){
+  const getBillData = () => {
+    myContract
+    .getPastEvents("bought", { fromBlock: "earliest", toBlock: "latest" })
+    .then((res) => {
+      // console.log(res);
+      let bills = [];
+      res.map((item) => {
+        if(item.returnValues.buyer.toLowerCase() == localStorage.getItem("walletAddress")){
+          // console.log("item", item);
+          read.products(item.returnValues.productId-1).then((product) => {
+            // console.log("ppp", product);
+            let obj = {
+              title: product.title,
+              image: product.image,
+              price: Number(product.price)/1e18,
+              quantity: item.returnValues.quantity,
+              totalPrice: item.returnValues.totalPrice/1e18,
+              hash: item.blockHash,
+            }
+            bills.push(obj);
+            setCartList(bills)
+          })
+        }
+      })
+    }).catch((err) => {
       console.log(err);
-      toast.error(err.response.data.message);
-    }
-  };
+    })
+  }
 
-  const selectOrder = (idOrder) => {
-    let arr = orderList;
-    if (orderList.includes(idOrder)) {
-      arr = arr.filter((item) => item !== idOrder);
-    } else {
-      arr.push(idOrder);
-    }
-    setOrderList(arr);
-    console.log(arr);
-  };
+  // const checkoutPayment = async () => {
+  //   try{
+  //     const res = await axios.post(
+  //         `${API_URL}/Bill/checkout`,
+  //         { orderlist: orderList },
+  //         {
+  //           headers: {
+  //             Accept: "application/json",
+  //             "Content-Type": "application/json"
+  //           },
+  //         }
+  //     );
+  //     if(res.data.data.result){
+  //       dispatch(updateCheckout({checkoutResult: res.data.data}));
+  //       // navigate("/payment");
+  //     }
+  //   } catch (err){
+  //     console.log(err);
+  //     toast.error(err.response.data.message);
+  //   }
+  // };
+
+  // const selectOrder = (idOrder) => {
+  //   let arr = orderList;
+  //   if (orderList.includes(idOrder)) {
+  //     arr = arr.filter((item) => item !== idOrder);
+  //   } else {
+  //     arr.push(idOrder);
+  //   }
+  //   setOrderList(arr);
+  //   console.log(arr);
+  // };
 
   return (
     <div className="container">
