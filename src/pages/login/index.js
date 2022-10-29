@@ -46,7 +46,7 @@ export const Login = () => {
       const res = await loginApi({
         username: email,
         password: password,
-      });
+      });   
       window.ethereum
         .request({ method: "eth_requestAccounts" })
         .then((_address) => {
