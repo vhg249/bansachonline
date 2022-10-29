@@ -49,11 +49,11 @@ export const CartItem = ({ data, ...props }) => {
         <img src={data ? data.image : ""} alt="book" />
         <Flex flexDirection="column" justifyContent="space-between">
           <p className="name">{data ? data.title : ""}</p>
-          <p className="price">{data ? data.price.toLocaleString() : ""} ETH</p>
+          <p className="price">{data ? data.price.toLocaleString() : ""} BNB</p>
         </Flex>
       </div>
       <div>Số lượng: {data ? data.quantity : 0}</div>
-      <div>{data ? handlePrice(data.price, data.quantity) : ""} ETH</div>
+      <div>{data ? handlePrice(data.price, data.quantity) : ""} BNB</div>
       {/* <div>
         <img
           className="delete"

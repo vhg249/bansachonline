@@ -16,7 +16,7 @@ export const Dashboard = () => {
     return(
         <>
             <Card style={{"padding": "10px", "marginBottom": "10px"}}>Address: {CONTRACT_ADDRESS}</Card>
-            <Card style={{"padding": "10px"}}>Balance: {balance} ETH</Card>
+            <Card style={{"padding": "10px"}}>Balance: {balance} BNB</Card>
         </>
     )
 }

@@ -11,7 +11,7 @@ export const Card = (props) =>{
                 <p className="title">{props.data.title}</p>
             </div>
             <div className="flex">
-                <p className="price">{props.data.price} ETH</p>
+                <p className="price">{props.data.price} BNB</p>
                 
                 <img src={btn_add} alt="btn_add" />
             </div>

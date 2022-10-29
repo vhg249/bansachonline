@@ -5,9 +5,9 @@ import { Button } from "../../shared/components/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constant";
-import {useDispatch, useSelector} from "react-redux";
-import {toast} from "react-toastify";
-import {updateCheckout} from "../../redux/actions/cart";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { updateCheckout } from "../../redux/actions/cart";
 import Web3 from "web3";
 import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
 import { ethers } from "ethers";
@@ -34,12 +34,15 @@ export const Cart = () => {
 
   const getBillApi = async () => {
     try {
-      const res = await axios.get(`${API_URL}/bills/${localStorage.getItem("username")}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-      });
+      const res = await axios.get(
+        `${API_URL}/bills/${localStorage.getItem("username")}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log(res.data.data);
       setCartList(res.data.data);
     } catch (err) {
@@ -47,34 +50,41 @@ export const Cart = () => {
     }
   };
 
-  const getBillData = () => {
-    myContract
-    .getPastEvents("bought", { fromBlock: "earliest", toBlock: "latest" })
-    .then((res) => {
-      // console.log(res);
-      let bills = [];
-      res.map((item) => {
-        if(item.returnValues.buyer.toLowerCase() == localStorage.getItem("walletAddress")){
-          // console.log("item", item);
-          read.products(item.returnValues.productId-1).then((product) => {
-            // console.log("ppp", product);
-            let obj = {
-              title: product.title,
-              image: product.image,
-              price: Number(product.price)/1e18,
-              quantity: item.returnValues.quantity,
-              totalPrice: item.returnValues.totalPrice/1e18,
-              hash: item.blockHash,
-            }
-            bills.push(obj);
-            setCartList(bills)
-          })
-        }
+  const getBillData = async () => {
+    await myContract
+      .getPastEvents("bought", {
+        fromBlock: (await web3.eth.getBlockNumber()) - 4999,
+        toBlock: "latest",
       })
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
+      .then((res) => {
+        console.log(res);
+        let bills = [];
+        res.map((item) => {
+          if (
+            item.returnValues.buyer.toLowerCase() ==
+            localStorage.getItem("walletAddress")
+          ) {
+            // console.log("item", item);
+            read.products(item.returnValues.productId - 1).then((product) => {
+              // console.log("ppp", product);
+              let obj = {
+                title: product.title,
+                image: product.image,
+                price: Number(product.price) / 1e18,
+                quantity: item.returnValues.quantity,
+                totalPrice: item.returnValues.totalPrice / 1e18,
+                hash: item.blockHash,
+              };
+              bills.push(obj);
+              setCartList(bills);
+            });
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // const checkoutPayment = async () => {
   //   try{
@@ -119,9 +129,7 @@ export const Cart = () => {
               <CartItem data={item} key={index} requestFetch={getBillApi} />
             ))}
         </div>
-        <Button
-         onClick={() => navigate("/")}
-        >Back to shop</Button>
+        <Button onClick={() => navigate("/")}>Back to shop</Button>
       </CartWrapper>
     </div>
   );

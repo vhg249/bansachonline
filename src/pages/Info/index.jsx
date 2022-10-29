@@ -147,7 +147,7 @@ export const Info = () => {
         <FlexRight>
           <p className="title">{data?.title}</p>
           <p className="review">{data?.author}</p>
-          <p className="price">{data?.price} ETH</p>
+          <p className="price">{data?.price} BNB</p>
           <div className="line"></div>
           <div className="flex">
             <input

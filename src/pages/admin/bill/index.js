@@ -106,11 +106,11 @@ export const Bill = () => {
                 <TableCell align="center">{row.name}</TableCell>
                 <TableCell align="center">{row.buyer}</TableCell>
                 <TableCell align="center">
-                  {Number(row.price / 1e18)} ETH
+                  {Number(row.price / 1e18)} BNB
                 </TableCell>
                 <TableCell align="center">{row.quantity}</TableCell>
                 <TableCell align="center">
-                  {Number(row.totalPrice / 1e18)} ETH
+                  {Number(row.totalPrice / 1e18)} BNB
                 </TableCell>
                 <TableCell align="center">{row.hash}</TableCell>
                 {/* <TableCell align="center">
