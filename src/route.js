@@ -23,12 +23,15 @@ import { Vouchers } from "./pages/admin/vouchers";
 import { EditVoucher } from "./pages/admin/vouchers/editVoucher";
 import { ChangePassword } from "./pages/change-password";
 import {Dashboard} from "./pages/admin/dashboard";
+import { AddProduct } from "./pages/add-product";
 
 const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<Products />}></Route>
       <Route path="/products/:id" element={<Info />} />
+      <Route path="/add-product/" element={<AddProduct />} />
+
       <Route path="/login" element={<Login />} />
       <Route path="/login-admin" element={<LoginAdmin />} />
       <Route path="/signup" element={<Signup />} />

@@ -11,8 +11,35 @@ import { API_URL } from "../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
 import { ethers } from "ethers";
-
+import { VerticalTimeline } from "react-vertical-timeline-component";
+import {VerticleTimelineElement} from "../../shared/components/VerticleTimelineElement"
 export const Info = () => {
+  const productHistory =[
+    {
+      name: "Test1",
+     type:"test1",
+     email:"test@gmail.com",
+     id_:"35dfd5...o2353",
+     date:"20/10/2022"
+    },
+    {
+      name: "Test1",
+     type:"test1",
+     email:"test@gmail.com",
+     id_:"35dfd5...o2353",
+     date:"21/10/2022"
+
+    },
+    {
+      name: "Test1",
+     type:"test1",
+     email:"test@gmail.com",
+     id_:"35dfd5...o2353",
+     date:"20-10-2022"
+
+    }
+  ]
+  
   const { id } = useParams();
   const token = useSelector((state) => state.account.token);
 
@@ -169,10 +196,18 @@ export const Info = () => {
           </Content>
         </FlexRight>
       </Wrapper>
+      {/* <Barcode data={data?.barcodeId} /> */}
       <h3>Description</h3>
       <Content>
         <p>{data?.desc}</p>
       </Content>
+      <h3>History</h3>
+      <VerticalTimeline lineColor="black" layout="1-column">
+        {productHistory &&
+          productHistory.map((data) => (
+            <VerticleTimelineElement data={data} key={data.id} />
+          ))}
+      </VerticalTimeline>
     </div>
   );
 };

@@ -4,6 +4,8 @@ import logo from "../../../assets/images/Logo.png";
 import searchIcon from "../../../assets/images/search.png";
 import profileIcon from "../../../assets/images/profile.png";
 import cartIcon from "../../../assets/images/cart.png";
+import CTA from "../../../assets/images/CTA.png";
+
 import Flex from "../Flex";
 import {Link, useNavigate} from "react-router-dom";
 import {MenuProfile} from "../MenuProfile";
@@ -57,6 +59,9 @@ export const Header = () => {
           <Profile>
             <Link to="/history">
               <img src={cartIcon} alt={"profile"} />
+            </Link>
+            <Link to="/add-product">
+              <img src={CTA} alt={"profile"} />
             </Link>
           </Profile>
         </Flex>
