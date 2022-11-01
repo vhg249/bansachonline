@@ -12,21 +12,24 @@ export const Sidebar = () => {
   return (
     <>
       <SidebarWrapper flexDirection={"column"}>
-        <NavLink to="user">
+        {/* <NavLink to="user">
           <NavItem>User</NavItem>
         </NavLink>
         <NavLink to="product">
           <NavItem>Sản phẩm</NavItem>
+        </NavLink> */}
+        <NavLink to="dashboard">
+          <NavItem>Dashboard</NavItem>
         </NavLink>
         <NavLink to="bill">
           <NavItem>Hoá Đơn</NavItem>
         </NavLink>
-        <NavLink to="store">
+        {/* <NavLink to="store">
           <NavItem>Store</NavItem>
         </NavLink>
         <NavLink to="voucher">
           <NavItem>Ma giam gia</NavItem>
-        </NavLink>
+        </NavLink> */}
       </SidebarWrapper>
     </>
   );

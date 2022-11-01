@@ -9,6 +9,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constant";
 import { useDispatch, useSelector } from "react-redux";
+import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
+import { ethers } from "ethers";
 
 export const Info = () => {
   const { id } = useParams();
@@ -17,6 +19,24 @@ export const Info = () => {
   const [data, setData] = useState();
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
+
+  const PROVIDER = new ethers.providers.Web3Provider(window.ethereum, "any");
+  const [signer, setSigner] = useState();
+  const [read, setRead] = useState(
+    new ethers.Contract(CONTRACT_ADDRESS, ABI, PROVIDER)
+  );
+  const [write, setWrite] = useState();
+
+  useEffect(() => {
+    setSigner(PROVIDER.getSigner());
+    setRead(new ethers.Contract(CONTRACT_ADDRESS, ABI, PROVIDER));
+  }, []);
+
+  useEffect(() => {
+    if (signer) {
+      setWrite(new ethers.Contract(CONTRACT_ADDRESS, ABI, signer));
+    }
+  }, [signer]);
 
   const onChangeQuantity = (e) => {
     setQuantity(e.target.value);
@@ -47,51 +67,73 @@ export const Info = () => {
         console.log(error);
         toast.error("Error");
       });
-  }
-  const handleBuy = () =>{
-    if(!localStorage.getItem("username")){
+  };
+  const handleBuy = async () => {
+    if (!localStorage.getItem("username")) {
       toast.error("You are not login!");
+    } else {
+      write
+        .buy(data._id, quantity, {
+          value: ethers.utils.parseEther((data.price * quantity).toString()),
+        })
+        .then((res) => {
+          console.log("buy: ", res);
+          if(res) toast.success("Success")
+          // axios
+          //   .post(
+          //     `${API_URL}/bills`,
+          //     {
+          //       title: data.title,
+          //       price: data.price,
+          //       image: data.image,
+          //       quantity: quantity,
+          //       username: localStorage.getItem("username"),
+          //       address: "Ha Dong, Ha Noi",
+          //       hash_bill: res.hash,
+          //     },
+          //     {
+          //       headers: {
+          //         Accept: "application/json",
+          //         "Content-Type": "application/json",
+          //         Authorization: "Bearer " + token,
+          //       },
+          //     }
+          //   )
+          //   .then(function (response) {
+          //     // console.log(response);
+          //     toast.success("Đã mua thanh cong!");
+          //     // navigate("/cart");
+          //   })
+          //   .catch(function (error) {
+          //     console.log(error);
+          //     toast.error("Error");
+          //   });
+        }).catch((err) => {
+          toast.error(err.data.message);
+          // console.log(err.data.message);
+        });
     }
-    else{
-
-    
-    axios.post(`${API_URL}/bills`,{
-        title: data.title,
-        price: data.price * quantity,
-        image:data.image,
-        quantity: quantity,
-        username: localStorage.getItem("username"),
-        address:"Ha Dong, Ha Noi",
-        hash_bill:"idfeeebakhfsksdfir924823r2gg3ef"
-        
-    },{
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then(function (response) {
-        // console.log(response);
-        toast.success("Đã mua thanh cong!");
-        // navigate("/cart");
-      })
-      .catch(function (error) {
-        console.log(error);
-        toast.error("Error");
-      });
-    }
-  }
+  };
   const getBookById = () => {
-    axios
-      .get(`${API_URL}/products/${id}`)
-      .then(function (response) {
-        // console.log(response);
-        setData(response.data.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    read.products(id-1).then((res) => {
+      let obj = {
+        title: res.title,
+        price: Number(res.price) / 1e18,
+        image: res.image,
+        desc: res.desc,
+        _id: Number(res.productId),
+      };
+      setData(obj)
+    });
+    // axios
+    //   .get(`${API_URL}/products/${id}`)
+    //   .then(function (response) {
+    //     // console.log(response);
+    //     setData(response.data.data);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
   };
   useEffect(() => {
     getBookById();
@@ -105,7 +147,7 @@ export const Info = () => {
         <FlexRight>
           <p className="title">{data?.title}</p>
           <p className="review">{data?.author}</p>
-          <p className="price">${data?.price}</p>
+          <p className="price">{data?.price} BNB</p>
           <div className="line"></div>
           <div className="flex">
             <input
@@ -117,19 +159,19 @@ export const Info = () => {
             <img onClick={handleBuy} src={add} />
           </div>
           <Content>
-            <p>
+            {/* <p>
               Color:<span> ELN001 </span>
-            </p>
+            </p> */}
             {/* <p>Categories:<span>{data?.category.map((item) => { return `${item}, ` })}</span></p> */}
             <p>
-              Tags:<span> Sweet, Vegetables, Food </span>
+              Tags:<span> Book </span>
             </p>
           </Content>
         </FlexRight>
       </Wrapper>
       <h3>Description</h3>
       <Content>
-        <p>{data?.describe}</p>
+        <p>{data?.desc}</p>
       </Content>
     </div>
   );

@@ -10,33 +10,33 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 export const CartItem = ({ data, ...props }) => {
-  const token = useSelector((state) => state.account.token);
+  // const token = useSelector((state) => state.account.token);
   const handlePrice = (price, quantity) => {
     let p = price * quantity;
     return p.toLocaleString();
   };
-  const handleOnChange = (isSelected) => {
-    props.selectOrder(data._id);
-  };
+  // const handleOnChange = (isSelected) => {
+  //   props.selectOrder(data._id);
+  // };
 
-  const deleteOrder = async (idOrder) => {
-    try {
-      const res = await axios.delete(`${API_URL}/Order/deleteOrder`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        data: { deleteId: [idOrder] },
-      });
-      if (res.data.data.result) {
-        toast.success("Deleted");
-        props.requestFetch();
-      }
-    } catch (err) {
-      console.log(err);
-      toast.error(err.response.data.message);
-    }
-  };
+  // const deleteOrder = async (idOrder) => {
+  //   try {
+  //     const res = await axios.delete(`${API_URL}/Order/deleteOrder`, {
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json"
+  //       },
+  //       data: { deleteId: [idOrder] },
+  //     });
+  //     if (res.data.data.result) {
+  //       toast.success("Deleted");
+  //       props.requestFetch();
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     toast.error(err.response.data.message);
+  //   }
+  // };
   return (
     <Item>
       <div>
@@ -49,11 +49,11 @@ export const CartItem = ({ data, ...props }) => {
         <img src={data ? data.image : ""} alt="book" />
         <Flex flexDirection="column" justifyContent="space-between">
           <p className="name">{data ? data.title : ""}</p>
-          <p className="price">{data ? data.price.toLocaleString() : ""}đ</p>
+          <p className="price">{data ? data.price.toLocaleString() : ""} BNB</p>
         </Flex>
       </div>
       <div>Số lượng: {data ? data.quantity : 0}</div>
-      <div>{data ? handlePrice(data.price, data.quantity) : ""}đ</div>
+      <div>{data ? handlePrice(data.price, data.quantity) : ""} BNB</div>
       {/* <div>
         <img
           className="delete"
