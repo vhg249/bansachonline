@@ -19,5 +19,5 @@ export const Barcode = ({ data }) => {
     }
   });
 
-  return <canvas style={{ width: "80px", height: 20 }} id={data}></canvas>;
+  return <canvas style={{ width: "140px", height: 40 }} id={data}></canvas>;
 };

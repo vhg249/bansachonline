@@ -13,6 +13,7 @@ import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
 import { ethers } from "ethers";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import {VerticleTimelineElement} from "../../shared/components/VerticleTimelineElement"
+import { Barcode } from "../../shared/components/Barcode";
 export const Info = () => {
   const productHistory =[
     {
@@ -193,10 +194,11 @@ export const Info = () => {
             <p>
               Tags:<span> Book </span>
             </p>
+      <Barcode data={"8710428998392"} />
+
           </Content>
         </FlexRight>
       </Wrapper>
-      {/* <Barcode data={data?.barcodeId} /> */}
       <h3>Description</h3>
       <Content>
         <p>{data?.desc}</p>
