@@ -91,11 +91,11 @@ export const MenuProfile = (props) => {
         >
           <MenuItem
             onClick={() => {
-              navigate("/profile");
+              navigate("/my-products");
               handleClose();
             }}
           >
-            Thông tin tài khoản
+            My products
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -105,7 +105,7 @@ export const MenuProfile = (props) => {
           >
             Add user Data
           </MenuItem>
-          <MenuItem onClick={() => navigate("/user-bill")}>Hoá đơn</MenuItem>
+          <MenuItem onClick={() => navigate("/existing-user")}>Existing User</MenuItem>
           <MenuItem onClick={logout}>Đăng xuất</MenuItem>
         </Menu>
       )}

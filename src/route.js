@@ -25,6 +25,8 @@ import { ChangePassword } from "./pages/change-password";
 import {Dashboard} from "./pages/admin/dashboard";
 import { AddProduct } from "./pages/add-product";
 import { AddUser } from "./pages/add-user";
+import { MyProducts } from "./pages/my-products";
+import { ExistingUser } from "./pages/existing-user";
 
 const Router = () => {
   return (
@@ -33,8 +35,8 @@ const Router = () => {
       <Route path="/products/:id" element={<Info />} />
       <Route path="/add-product/" element={<AddProduct />} />
       <Route path="/add-user" element={<AddUser />} />
-      {/* <Route path="/my-products" element={<MyProducts />} /> */}
-      {/* <Route path="/existing-user" element={<ExistingUser />} /> */}
+      <Route path="/my-products" element={<MyProducts />} />
+      <Route path="/existing-user" element={<ExistingUser />} />
       <Route path="/login" element={<Login />} />
       <Route path="/login-admin" element={<LoginAdmin />} />
       <Route path="/signup" element={<Signup />} />

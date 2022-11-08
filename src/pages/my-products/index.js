@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "../../shared/components/Card";
-import { Categories, Wrapper, List, SearchInput } from "./style";
+import { Categories, Wrapper, List, SearchInput, LoginWrapper } from "./style";
 import active from "../../assets/images/active.png";
 import checkbox from "../../assets/images/checkbox.png";
 import searchIcon from "../../assets/images/search.png";
@@ -11,8 +11,9 @@ import { Select, MenuItem } from "@mui/material";
 import Web3 from "web3";
 import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
 import { ethers } from "ethers";
+import { CardSell } from "../../shared/components/CardSell";
 
-export const Products = () => {
+export const MyProducts = () => {
   const [isActive, setIsActive] = useState("");
   const [name, setName] = useState("");
   const [searchValue, setSearchValue] = useState("");
@@ -25,7 +26,7 @@ export const Products = () => {
     new ethers.Contract(CONTRACT_ADDRESS, ABI, PROVIDER)
   );
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(["dede"]);
   const [category, setCategory] = useState([]);
 
   const getBook = () => {
@@ -110,30 +111,6 @@ export const Products = () => {
     //     else {
     //     }
   }, [name, isActive]);
-  const onSearch = (e) => {
-    setSearchValue(e.target.value);
-    axios
-      .get(`${API_URL}/Book/getListBook?name=${searchValue}`)
-      .then(function (response) {
-        setData(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-  const handleChange = (e) => {
-    setSearchValue(e.target.value.name);
-    if (e.target.value.name.length > 0) {
-      axios
-        .get(`${API_URL}/Book/getListBook?category=${e.target.value.name}`)
-        .then(function (response) {
-          setData(response.data.data.result);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-  };
   return (
     <Wrapper>
       <Categories>
@@ -169,40 +146,16 @@ export const Products = () => {
             <img src={searchIcon} alt={"search"} />
           </div>
         </SearchInput>
+        <h1>My products</h1>
         <List>
           {data.map((item, index) => {
             return (
-              <a href={`/products/${item._id}`} key={index}>
-                <Card data={item} />
-              </a>
+              // <a href={`/products/${item._id}`} key={index}>
+                <CardSell data={item} />
+              // </a>
             );
           })}
         </List>
-<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
-
-{/* <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> */}
-<div className="modal fade" id="exampleModal">
-
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
       </div>
     </Wrapper>
   );
