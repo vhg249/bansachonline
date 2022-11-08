@@ -19,13 +19,13 @@ export const ExistingUser = () => {
         <div class="list-group">
           {data.map((item,index)=>{
             return(
-            <a class="list-group-item list-group-item-action flex-column align-items-start">
+            <a class="list-group-item list-group-item-action flex-column align-items-start" style={{width:"500px"}}>
                       <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">List group item heading</h5>
-                        <small class="text-muted">3 days ago</small>
+                        <h5 class="mb-1">TranHuy3737</h5>
+                        {/* <small class="text-muted">3 days ago</small> */}
                       </div>
-                      <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                      <small class="text-muted">Donec id elit non mi porta.</small>
+                      <p class="mb-1">huy@gmail.com</p>
+                      <small class="text-muted">21897bbfb1bfb3817dv</small>
                     </a>
           )})}
         
