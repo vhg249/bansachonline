@@ -1,8 +1,9 @@
 import { Wrapper } from "./style";
 import btn_add from "../../../assets/images/button-add.png";
 import book from "../../../assets/images/img-product.png";
+import { Button } from "../Button";
 
-export const Card = (props) => {
+export const CardSell = (props) => {
   return (
     <Wrapper>
       <div className="img">
@@ -10,9 +11,13 @@ export const Card = (props) => {
         <p className="title">{props.data.title}</p>
       </div>
       <div className="flex">
-        <p className="price">{Number(props.data.price)} BNB</p>
-
-        <img src={btn_add} alt="btn_add" />
+        <p
+          className="price"
+          style={{ whiteSpace: "nowrap", marginRight: "20px" }}
+        >
+          {Number(props.data.price)} BNB
+        </p>
+        <Button>Sell</Button>
       </div>
     </Wrapper>
   );
