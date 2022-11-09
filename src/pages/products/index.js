@@ -28,88 +28,20 @@ export const Products = () => {
   const [data, setData] = useState([]);
   const [category, setCategory] = useState([]);
 
-  const getBook = () => {
-    read.getCounter().then((count) => {
-        const total = Number(count);
-        let books=[];
-        for(let i=0; i<total-1; i++){
-            read.products(i).then((res) => {
-                let obj = {
-                    title: res.title,
-                    price: Number(res.price)/1e18,
-                    image: res.image,
-                    desc: res.desc,
-                    _id: Number(res.productId)
-                }
-                books.push(obj);
-                // console.log(books);
-                setData(books)
-            })
-        }
+  const getProduct = () => {
+    read.getAllProducts().then((res) => {
+      // console.log(res);
+      
+      setData(res)
+    }).catch((err) => {
+      console.log(err);
     })
-    // axios
-    //   .get(`${API_URL}/products`)
-    //   .then(function (response) {
-    //     // console.log(response);
-    //     setData(response.data);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-  };
-  const getCategory = () => {
-    axios
-      .get(`${API_URL}/Category/getListCategory`)
-      .then(function (response) {
-        // console.log(response);
-        setCategory(response.data.data.result);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   };
 
   useEffect(() => {
-    getBook();
+    getProduct();
     // getCategory();
   }, []);
-  useEffect(() => {
-    // console.log(name, isActive);
-    // let strNew = [...str];
-    // let query="";
-    // if (isActive) {
-    //     let checkSame=false;
-    //     for (let i = 0; i < strNew.length; i++) {
-    //         if (name === strNew[i]){
-    //                 checkSame=true;
-    //         }
-    //     }
-    //     if(checkSame){
-    //         for (let i = 0; i < strNew.length; i++) {
-    //             query += `category=${strNew[i]}`;
-    //         }
-    //     }
-    //     console.log("strNew",strNew,query);
-    // }
-    // else{
-    //     const new_arr = strNew.filter(item => item !== name);
-    //     console.log("new arr",new_arr);
-    // }
-    // if (name)
-    //     if (isActive) {
-    //         axios
-    //             .get(`${API_URL}/Book/getListBook?category=${name}category=Tiểu Thuyết`)
-    //             .then(function (response) {
-    //                 console.log(response);
-    //                 setData(response.data.data.result);
-    //             })
-    //             .catch(function (error) {
-    //                 console.log(error);
-    //             });
-    //     }
-    //     else {
-    //     }
-  }, [name, isActive]);
   const onSearch = (e) => {
     setSearchValue(e.target.value);
     axios
@@ -172,7 +104,7 @@ export const Products = () => {
         <List>
           {data.map((item, index) => {
             return (
-              <a href={`/products/${item._id}`} key={index}>
+              <a href={`/products/${item.barcodeId}`} key={index}>
                 <Card data={item} />
               </a>
             );

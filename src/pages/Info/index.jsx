@@ -12,37 +12,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
 import { ethers } from "ethers";
 import { VerticalTimeline } from "react-vertical-timeline-component";
-import {VerticleTimelineElement} from "../../shared/components/VerticleTimelineElement"
+import { VerticleTimelineElement } from "../../shared/components/VerticleTimelineElement";
 import { Barcode } from "../../shared/components/Barcode";
 export const Info = () => {
-  const productHistory =[
-    {
-      name: "Test1",
-     type:"test1",
-     email:"test@gmail.com",
-     id_:"35dfd5...o2353",
-     date:"20/10/2022"
-    },
-    {
-      name: "Test1",
-     type:"test1",
-     email:"test@gmail.com",
-     id_:"35dfd5...o2353",
-     date:"21/10/2022"
+  // const productHistory = [
+  //   {
+  //     name: "Test1",
+  //     type: "test1",
+  //     email: "test@gmail.com",
+  //     id_: "35dfd5...o2353",
+  //     date: "20/10/2022",
+  //   },
+  //   {
+  //     name: "Test1",
+  //     type: "test1",
+  //     email: "test@gmail.com",
+  //     id_: "35dfd5...o2353",
+  //     date: "21/10/2022",
+  //   },
+  //   {
+  //     name: "Test1",
+  //     type: "test1",
+  //     email: "test@gmail.com",
+  //     id_: "35dfd5...o2353",
+  //     date: "20-10-2022",
+  //   },
+  // ];
 
-    },
-    {
-      name: "Test1",
-     type:"test1",
-     email:"test@gmail.com",
-     id_:"35dfd5...o2353",
-     date:"20-10-2022"
-
-    }
-  ]
-  
   const { id } = useParams();
   const token = useSelector((state) => state.account.token);
+  const [productHistory, setProductHistory] = useState([]);
 
   const [data, setData] = useState();
   const [quantity, setQuantity] = useState(1);
@@ -69,113 +68,80 @@ export const Info = () => {
   const onChangeQuantity = (e) => {
     setQuantity(e.target.value);
   };
-  const addToCard = () => {
-    axios
-      .post(
-        `${API_URL}/Order/insert`,
-        {
-          bookid: id,
-          price: data.price,
-          quantity: quantity,
-        },
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
-      .then(function (response) {
-        console.log(response);
-        toast.success("Đã thêm vào giỏ hàng");
-        navigate("/cart");
-      })
-      .catch(function (error) {
-        console.log(error);
-        toast.error("Error");
-      });
-  };
   const handleBuy = async () => {
     if (!localStorage.getItem("username")) {
       toast.error("You are not login!");
     } else {
-      write
-        .buy(data._id, quantity, {
-          value: ethers.utils.parseEther((data.price * quantity).toString()),
-        })
-        .then((res) => {
-          console.log("buy: ", res);
-          if(res) toast.success("Success")
-          // axios
-          //   .post(
-          //     `${API_URL}/bills`,
-          //     {
-          //       title: data.title,
-          //       price: data.price,
-          //       image: data.image,
-          //       quantity: quantity,
-          //       username: localStorage.getItem("username"),
-          //       address: "Ha Dong, Ha Noi",
-          //       hash_bill: res.hash,
-          //     },
-          //     {
-          //       headers: {
-          //         Accept: "application/json",
-          //         "Content-Type": "application/json",
-          //         Authorization: "Bearer " + token,
-          //       },
-          //     }
-          //   )
-          //   .then(function (response) {
-          //     // console.log(response);
-          //     toast.success("Đã mua thanh cong!");
-          //     // navigate("/cart");
-          //   })
-          //   .catch(function (error) {
-          //     console.log(error);
-          //     toast.error("Error");
-          //   });
-        }).catch((err) => {
-          toast.error(err.data.message);
-          // console.log(err.data.message);
-        });
+      // write
+      //   .buy(data._id, quantity, {
+      //     value: ethers.utils.parseEther((data.price * quantity).toString()),
+      //   })
+      //   .then((res) => {
+      //     console.log("buy: ", res);
+      //     if(res) toast.success("Success")
+      //   }).catch((err) => {
+      //     toast.error(err.data.message);
+      //     // console.log(err.data.message);
+      //   });
     }
   };
-  const getBookById = () => {
-    read.products(id-1).then((res) => {
-      let obj = {
-        title: res.title,
-        price: Number(res.price) / 1e18,
-        image: res.image,
-        desc: res.desc,
-        _id: Number(res.productId),
-      };
-      setData(obj)
+
+  const getRole = (role) => {
+    switch (role) {
+      case 0:
+        return "Nhà sản xuất";
+      case 1:
+        return "Nhà cung cấp";
+      case 2:
+        return "Nhà phân phối";
+      default:
+        break;
+    }
+  };
+
+  const getProductDetail = () => {
+    read.getSpecificProduct(id).then((info) => {
+      setData(info[0]);
+      let historyData = [];
+      info[1].map((item) => {
+        if (
+          item.id_ === "0x0000000000000000000000000000000000000000" ||
+          !item.id_
+        ) {
+        } else {
+          read
+            .getParty(item.id_)
+            .then((history) => {
+              let obj = {
+                name: history.name,
+                type: getRole(Number(history.role)),
+                email: history.email,
+                id_: history.id_,
+                date: Date(Number(history.date)),
+              };
+              historyData.push(obj);
+              setProductHistory(historyData);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
     });
-    // axios
-    //   .get(`${API_URL}/products/${id}`)
-    //   .then(function (response) {
-    //     // console.log(response);
-    //     setData(response.data.data);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
   };
   useEffect(() => {
-    getBookById();
+    getProductDetail();
   }, []);
   return (
     <div className="container">
       <Wrapper>
         <div>
-          <img className="img" src={data?.image} />
+          <img className="img" src={data?.productImage} />
         </div>
         <FlexRight>
           <p className="title">{data?.title}</p>
-          <p className="review">{data?.author}</p>
-          <p className="price">{data?.price} BNB</p>
+          {/* <p className="review">{data?.author}</p> */}
+          <p className="price">{Number(data?.price)} BNB</p>
           <div className="line"></div>
           <div className="flex">
             <input
@@ -187,15 +153,10 @@ export const Info = () => {
             <img onClick={handleBuy} src={add} />
           </div>
           <Content>
-            {/* <p>
-              Color:<span> ELN001 </span>
-            </p> */}
-            {/* <p>Categories:<span>{data?.category.map((item) => { return `${item}, ` })}</span></p> */}
             <p>
-              Tags:<span> Book </span>
+              Tags:<span> Food </span>
             </p>
-      <Barcode data={"8710428998392"} />
-
+            {data?.barcodeId && <Barcode data={data?.barcodeId} />}
           </Content>
         </FlexRight>
       </Wrapper>
@@ -206,8 +167,8 @@ export const Info = () => {
       <h3>History</h3>
       <VerticalTimeline lineColor="black" layout="1-column">
         {productHistory &&
-          productHistory.map((data) => (
-            <VerticleTimelineElement data={data} key={data.id} />
+          productHistory.map((data, index) => (
+            <VerticleTimelineElement data={data} key={index} />
           ))}
       </VerticalTimeline>
     </div>

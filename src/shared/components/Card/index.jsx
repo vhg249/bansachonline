@@ -7,11 +7,11 @@ export const Card = (props) =>{
         <Wrapper>
 
             <div className="img">
-                <img src={props.data.image} alt="book" />
+                <img src={props.data.productImage} alt="book" />
                 <p className="title">{props.data.title}</p>
             </div>
             <div className="flex">
-                <p className="price">{props.data.price} BNB</p>
+                <p className="price">{Number(props.data.price)} BNB</p>
                 
                 <img src={btn_add} alt="btn_add" />
             </div>
