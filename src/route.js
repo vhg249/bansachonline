@@ -10,6 +10,8 @@ import { User } from "./pages/admin/user";
 import { Product } from "./pages/admin/product";
 import { Bill } from "./pages/admin/bill";
 import { Info } from "./pages/Info";
+import { MyInfo } from "./pages/MyInfo";
+
 import { Payment } from "./pages/payment";
 import { Store } from "./pages/admin/store";
 import { Voucher } from "./pages/voucher";
@@ -33,6 +35,8 @@ const Router = () => {
     <Routes>
       <Route path="/" element={<Products />}></Route>
       <Route path="/products/:id" element={<Info />} />
+      <Route path="/my-products-info/:id" element={<MyInfo />} />
+
       <Route path="/add-product/" element={<AddProduct />} />
       <Route path="/add-user" element={<AddUser />} />
       <Route path="/my-products" element={<MyProducts />} />

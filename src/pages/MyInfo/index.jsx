@@ -14,7 +14,9 @@ import { ethers } from "ethers";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import {VerticleTimelineElement} from "../../shared/components/VerticleTimelineElement"
 import { Barcode } from "../../shared/components/Barcode";
-export const Info = () => {
+import { Button } from "../../shared/components/Button";
+
+export const MyInfo = () => {
   const productHistory =[
     {
       name: "Test1",
@@ -153,18 +155,10 @@ export const Info = () => {
       };
       setData(obj)
     });
-    // axios
-    //   .get(`${API_URL}/products/${id}`)
-    //   .then(function (response) {
-    //     // console.log(response);
-    //     setData(response.data.data);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    
   };
   useEffect(() => {
-    getBookById();
+    getBookById(); 
   }, []);
   return (
     <div className="container">
@@ -178,13 +172,19 @@ export const Info = () => {
           <p className="price">{data?.price} BNB</p>
           <div className="line"></div>
           <div className="flex">
-            <input
+            {/* <input
               type="number"
               placeholder="quantity"
               onChange={(e) => onChangeQuantity(e)}
-            />
+            /> */}
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Open this select buyer</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
             {/* <img onClick={addToCard} src={add} /> */}
-            <img onClick={handleBuy} src={add} />
+            <Button>Sell</Button>
           </div>
           <Content>
             {/* <p>

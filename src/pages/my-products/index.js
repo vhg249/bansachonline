@@ -80,7 +80,7 @@ export const MyProducts = () => {
         <List>
           {data.map((item, index) => {
             return (
-              <a href={`/products/${item.barcodeId}`} key={index}>
+              <a href={`/my-products-info/${item.barcodeId}`} key={index}>
                 <CardSell data={item} />
               </a>
             );
