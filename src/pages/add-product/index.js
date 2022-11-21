@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { updateToken } from "../../redux/actions/accounts";
 import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
 import { ethers } from "ethers";
+import Web3 from "web3";
 
 export const AddProduct = () => {
   const [price, setPrice] = useState("1");
@@ -25,6 +26,7 @@ export const AddProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
   const PROVIDER = new ethers.providers.Web3Provider(window.ethereum, "any");
   const [write, setWrite] = useState();
   const [signer, setSigner] = useState();
@@ -34,7 +36,6 @@ export const AddProduct = () => {
   }, []);
 
   useEffect(() => {
-    // console.log(signer);
     if (signer) {
       setWrite(new ethers.Contract(CONTRACT_ADDRESS, ABI, signer));
     }
@@ -68,9 +69,12 @@ export const AddProduct = () => {
       price: Number(price)
     };
     
-    console.log(productObj, Date.now());
     write.addProduct(productObj, Date.now()).then((res) => {
-      console.log(res);
+      // console.log(res);
+      web3.eth.getTransactionReceipt(res.hash).then((event) => {
+        // console.log('listen event', event);
+        navigate('/')
+      })
     }).catch((err) => {
       console.log(err);
     })

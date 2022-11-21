@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
 import { ethers } from "ethers";
+import Web3 from "web3";
 
 export const AddUser = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export const AddUser = () => {
   const [address, setAddress] = useState("");
   const [myRole, setMyRole] = useState();
 
+  const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
   const PROVIDER = new ethers.providers.Web3Provider(window.ethereum, "any");
   const [signer, setSigner] = useState();
   const [read, setRead] = useState(
@@ -54,8 +56,10 @@ export const AddUser = () => {
           .addParty(obj)
           .then((res) => {
             // console.log("party", res);
-            toast.success("Thêm đối tác thành công");
-            navigate("/existing-user");
+            web3.eth.getTransactionReceipt(res.hash).then((event) => {
+              toast.success("Thêm đối tác thành công");
+              navigate("/existing-user");
+            });
           })
           .catch((err) => {
             console.log(err);

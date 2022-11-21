@@ -36,6 +36,7 @@ export const Products = () => {
     }).catch((err) => {
       console.log(err);
     })
+    
   };
 
   useEffect(() => {

@@ -16,7 +16,7 @@ export const ExistingUser = () => {
 
   const getMyParties = () => {
     read
-      .getMyPartyList()
+      .getMyPartyList(localStorage.getItem('walletAddress'))
       .then((res) => {
         // console.log(res);
         setData(res);

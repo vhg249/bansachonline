@@ -36,33 +36,30 @@ export const Bill = () => {
     myContract
       .getPastEvents("bought", { fromBlock: "earliest", toBlock: "latest" })
       .then((res) => {
-        console.log("events", res);
+        // console.log("events", res);
         if (res) {
           let allBills = [];
           res.map((item) => {
-            read.products(item.returnValues.productId - 1).then((product) => {
-              // console.log("product", product);
-              let obj = {
-                name: product.title,
-                price: product.price,
-                buyer: item.returnValues.buyer,
-                quantity: item.returnValues.quantity,
-                totalPrice: item.returnValues.totalPrice,
-                hash: item.blockHash,
-              };
-              allBills.push(obj);
-              console.log(allBills);
-              setBills(allBills);
-            });
+            // console.log(item.returnValues.barcodeId);
+            read
+              .getSpecificProduct(item.returnValues.barcodeId)
+              .then((product) => {
+                // console.log("product", product);
+                let obj = {
+                  name: product[0].title,
+                  price: Number(product[0].price) * 1e18,
+                  buyer: item.returnValues.buyer,
+                  quantity: item.returnValues.quantity,
+                  totalPrice: Number(item.returnValues.totalPrice) * 1e18,
+                  hash: item.blockHash,
+                };
+                allBills.push(obj);
+                // console.log(allBills);
+                setBills(allBills);
+              });
           });
         }
       });
-  }, []);
-  useEffect(() => {
-    console.log("bill", bills);
-  }, [bills]);
-  useEffect(() => {
-    // getBills();
   }, []);
 
   const getBills = async () => {

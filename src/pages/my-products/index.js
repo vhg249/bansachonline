@@ -29,17 +29,29 @@ export const MyProducts = () => {
   const [data, setData] = useState(["dede"]);
   const [category, setCategory] = useState([]);
 
-  const getMyProducts = () => {
-    read.getMyProducts().then((res) => {
-      // console.log(res);
+  const getMyProduct = () => {
+    // read.getUser(localStorage.getItem('walletAddress')).then((res) => {
+    //   console.log("user", res);
+    // })
+    read.getMyProducts(localStorage.getItem('walletAddress')).then((res) => {
+      console.log(res);
       setData(res)
     }).catch((err) => {
       console.log(err);
     })
   }
 
+  const getSellEvent = () => {
+    console.log('call event');
+    PROVIDER.on("ProductOwnershipTransfer", (_title, _manufacturerName, _barcodeId, _buyerName, _buyerEmail) => {
+      console.log("bought event: ", _title, _manufacturerName, _barcodeId, _buyerName, _buyerEmail);
+    });
+  }
+
   useEffect(() => {
-    getMyProducts()
+    setRead(new ethers.Contract(CONTRACT_ADDRESS, ABI, PROVIDER));
+    getMyProduct()
+    getSellEvent()
   }, []);
 
   return (

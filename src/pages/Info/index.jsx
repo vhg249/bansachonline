@@ -14,31 +14,8 @@ import { ethers } from "ethers";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import { VerticleTimelineElement } from "../../shared/components/VerticleTimelineElement";
 import { Barcode } from "../../shared/components/Barcode";
+import Web3 from "web3";
 export const Info = () => {
-  // const productHistory = [
-  //   {
-  //     name: "Test1",
-  //     type: "test1",
-  //     email: "test@gmail.com",
-  //     id_: "35dfd5...o2353",
-  //     date: "20/10/2022",
-  //   },
-  //   {
-  //     name: "Test1",
-  //     type: "test1",
-  //     email: "test@gmail.com",
-  //     id_: "35dfd5...o2353",
-  //     date: "21/10/2022",
-  //   },
-  //   {
-  //     name: "Test1",
-  //     type: "test1",
-  //     email: "test@gmail.com",
-  //     id_: "35dfd5...o2353",
-  //     date: "20-10-2022",
-  //   },
-  // ];
-
   const { id } = useParams();
   const token = useSelector((state) => state.account.token);
   const [productHistory, setProductHistory] = useState([]);
@@ -47,6 +24,7 @@ export const Info = () => {
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
 
+  const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
   const PROVIDER = new ethers.providers.Web3Provider(window.ethereum, "any");
   const [signer, setSigner] = useState();
   const [read, setRead] = useState(
@@ -72,17 +50,32 @@ export const Info = () => {
     if (!localStorage.getItem("username")) {
       toast.error("You are not login!");
     } else {
-      // write
-      //   .buy(data._id, quantity, {
-      //     value: ethers.utils.parseEther((data.price * quantity).toString()),
-      //   })
-      //   .then((res) => {
-      //     console.log("buy: ", res);
-      //     if(res) toast.success("Success")
-      //   }).catch((err) => {
-      //     toast.error(err.data.message);
-      //     // console.log(err.data.message);
-      //   });
+      const seller = productHistory[productHistory.length - 1].id_;
+      write
+        .buy(data.barcodeId, quantity, seller, {
+          value: ethers.utils.parseEther((data.price * quantity).toString()),
+        })
+        .then((res) => {
+          console.log("buy: ", res);
+          web3.eth.getTransactionReceipt(res.hash).then((event) => {
+            // console.log('listen event', event);
+            write
+              .withdrawMoneyTo(seller, (Number(data.price * quantity) * 1e18).toString())
+              .then((withdraw) => {
+                console.log("withdraw", withdraw);
+                web3.eth.getTransactionReceipt(res.hash).then(() => {
+                  toast.success("Success");
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
+        })
+        .catch((err) => {
+          toast.error(err.data.message);
+          // console.log(err.data.message);
+        });
     }
   };
 
@@ -132,6 +125,7 @@ export const Info = () => {
   useEffect(() => {
     getProductDetail();
   }, []);
+
   return (
     <div className="container">
       <Wrapper>
@@ -140,7 +134,6 @@ export const Info = () => {
         </div>
         <FlexRight>
           <p className="title">{data?.title}</p>
-          {/* <p className="review">{data?.author}</p> */}
           <p className="price">{Number(data?.price)} BNB</p>
           <div className="line"></div>
           <div className="flex">
@@ -149,7 +142,6 @@ export const Info = () => {
               placeholder="quantity"
               onChange={(e) => onChangeQuantity(e)}
             />
-            {/* <img onClick={addToCard} src={add} /> */}
             <img onClick={handleBuy} src={add} />
           </div>
           <Content>
