@@ -10,7 +10,7 @@ import axios from "axios";
 import { API_URL } from "../constant";
 import { useDispatch, useSelector } from "react-redux";
 import { ABI, CONTRACT_ADDRESS } from "../constant/contract";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import { VerticleTimelineElement } from "../../shared/components/VerticleTimelineElement";
 import { Barcode } from "../../shared/components/Barcode";
@@ -96,6 +96,7 @@ export const Info = () => {
     read.getSpecificProduct(id).then((info) => {
       setData(info[0]);
       let historyData = [];
+      // console.log(info);
       info[1].map((item) => {
         if (
           item.id_ === "0x0000000000000000000000000000000000000000" ||
@@ -105,15 +106,18 @@ export const Info = () => {
           read
             .getParty(item.id_)
             .then((history) => {
+              // console.log(Number(item.date), new Date(Number(item.date)));
+              let d = new Date(Number(item.date))
               let obj = {
                 name: history.name,
                 type: getRole(Number(history.role)),
                 email: history.email,
                 id_: history.id_,
-                date: Date(Number(history.date)),
+                date: d.toString(),
               };
               historyData.push(obj);
               setProductHistory(historyData);
+              // console.log(historyData);
             })
             .catch((err) => {
               console.log(err);
