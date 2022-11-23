@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-export const CONTRACT_ADDRESS = "0x3B204Aa2f099A6857e46Cf521BFC18AB42E2E933";
+export const CONTRACT_ADDRESS = "0x856B3bce86d2b81689651e959a090CbA60eB1f53";
 export const PROVIDER = new ethers.providers.Web3Provider(
   window.ethereum,
   "any"
