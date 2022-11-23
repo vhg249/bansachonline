@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { loginSuccess, updateToken } from "../../redux/actions/accounts";
 
 export const Login = () => {
-  const [email, setEmail] = useState("huytran");
+  const [email, setEmail] = useState("tranhuy");
   const [password, setPassword] = useState("123");
   const dispatch = useDispatch();
   const navigate = useNavigate();

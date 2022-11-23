@@ -96,12 +96,13 @@ export const MyInfo = () => {
           read
             .getParty(item.id_)
             .then((history) => {
+              let d = new Date(Number(item.date))
               let obj = {
                 name: history.name,
                 type: getRole(Number(history.role)),
                 email: history.email,
                 id_: history.id_,
-                date: Date(Number(history.date)),
+                date: d.toString(),
               };
               historyData.push(obj);
               setProductHistory(historyData);
